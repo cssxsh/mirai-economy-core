@@ -28,9 +28,9 @@ dependsOn("io.github.skynet1748.mirai-economy-core")
 
 ```kotlin
 // 获取默认经济服务 (但下面这种写法是不推荐的，请自行解决取值为空的问题)
-val economy : IEconomyService = EconomyAPI.get()!!
+val economy : IEconomyService = EconomyApi.get()!!
 // 获取特定经济服务
-// EconomyAPI["插件ID"]
+// EconomyApi["插件ID"]
 
 // 要操作用户的金钱，首先要获取一个上下文
 // 不同上下文的用户数据不同
@@ -54,5 +54,5 @@ val context : IEconomyContext = economy.getGlobalContext()
 
 ```kotlin
 // 需要填入插件 ID 和经济服务实例
-EconomyAPI.register(pluginId, service)
+EconomyApi.register(pluginId, service)
 ```
