@@ -8,9 +8,6 @@ import net.mamoe.mirai.console.command.CommandManager.INSTANCE.isRegistered
 import net.mamoe.mirai.console.command.CommandManager.INSTANCE.register
 import net.mamoe.mirai.console.command.CommandManager.INSTANCE.unregister
 import net.mamoe.mirai.console.data.PluginData
-import net.mamoe.mirai.console.permission.Permission
-import net.mamoe.mirai.console.permission.PermissionId
-import net.mamoe.mirai.console.permission.PermissionService
 import net.mamoe.mirai.console.plugin.id
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
@@ -27,13 +24,6 @@ public object MiraiEconomyCore : KotlinPlugin(
         author("skynet1748")
     }
 ) {
-    public val PermissionSimpleEconomyService: Permission by lazy {
-        PermissionService.INSTANCE.register(PermissionId("$id.simple", "command."), "默认经济实现的命令权限")
-    }
-    public val PermissionEconomyApi: Permission by lazy {
-        PermissionService.INSTANCE.register(PermissionId(id, "core.admin"), "注册权限的示例")
-    }
-
     override fun onEnable() {
         logger.info { "Plugin loaded" }
         reloadConfig()

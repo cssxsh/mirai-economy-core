@@ -7,7 +7,7 @@ import net.mamoe.mirai.console.command.CompositeCommand
 public object EconomyCoreApiCommand : CompositeCommand(
     owner = MiraiEconomyCore,
     "economycore",
-    description = "PIXIV信息指令"
+    description = "经济核心命令"
 ), EconomyCoreCommand {
     @SubCommand
     @Description("重载配置文件")
