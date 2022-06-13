@@ -2,7 +2,9 @@
 
 ## 添加依赖
 
-请自行到 [Github Releases](https://github.com/SkyNet1748/mirai-economy-core/releases) 选择版本填入
+[![releases](https://img.shields.io/github/v/release/SkyNet1748/mirai-economy-core?label=%E6%9C%80%E6%96%B0%E7%89%88&logo=Github)](https://github.com/SkyNet1748/mirai-economy-core/releases)
+
+请自行选择版本填入 `$economyVersion`
 
 ```groovy
 repositories { 
