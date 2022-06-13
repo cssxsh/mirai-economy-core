@@ -1,4 +1,8 @@
+@file:JvmBlockingBridge
+
 package io.github.skynet1748.mirai.economy
+
+import me.him188.kotlin.jvm.blocking.bridge.JvmBlockingBridge
 
 /**
  * 经济服务，用于存取数据和获取经济上下文
