@@ -1,6 +1,11 @@
 package io.github.skynet1748.mirai.economy
 
 import io.github.skynet1748.mirai.economy.config.EconomyApiConfig
+import io.github.skynet1748.mirai.economy.events.EconomyApiRegisterEvent
+import io.github.skynet1748.mirai.economy.events.EconomyApiUnRegisterEvent
+import kotlinx.coroutines.launch
+import me.him188.kotlin.jvm.blocking.bridge.JvmBlockingBridge
+import net.mamoe.mirai.event.broadcast
 
 public object EconomyApi {
     /**
@@ -29,6 +34,7 @@ public object EconomyApi {
      * @param pluginId 插件ID
      * @param service 经济服务实例
      * @param setToDefault 是否将该经济服务设为默认值
+     *
      */
     @JvmStatic
     @JvmOverloads
@@ -37,9 +43,13 @@ public object EconomyApi {
             MiraiEconomyCore.logger.warning("Economy service `$pluginId` has been registered.")
             return
         }
-        registeredEconomy[pluginId] = service
-        if (setToDefault) EconomyApiConfig.defaultEconomyService = pluginId
-        MiraiEconomyCore.logger.info("Economy service `$pluginId` registered successfully.")
+        MiraiEconomyCore.launch {
+            val event = EconomyApiRegisterEvent(pluginId, service, setToDefault).broadcast()
+            if(event.isCancelled) return@launch
+            registeredEconomy[event.pluginId] = event.service
+            if (event.isSetToDefault) EconomyApiConfig.defaultEconomyService = event.pluginId
+            MiraiEconomyCore.logger.info("Economy service `${event.pluginId}` registered successfully.")
+        }
     }
 
     /**
@@ -52,9 +62,16 @@ public object EconomyApi {
     /**
      * 注销经济服务
      * @param pluginId 插件ID
+     *
+     * @return 是否注销成功，失败原因可能是经济服务不存在或者插件拦截
      */
     @JvmStatic
     public fun unregister(pluginId: String) {
-        registeredEconomy.remove(pluginId)
+        val service = get(pluginId) ?: return
+        MiraiEconomyCore.launch {
+            val event = EconomyApiUnRegisterEvent(pluginId, service).broadcast()
+            if (event.isCancelled) return@launch
+            registeredEconomy.remove(pluginId)
+        }
     }
 }
