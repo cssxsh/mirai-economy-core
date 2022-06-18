@@ -9,6 +9,4 @@ import net.mamoe.yamlkt.Comment
 public object EconomyApiConfig : AutoSavePluginConfig("config") {
     @Comment("设置默认经济服务")
     public var defaultEconomyService: String by value(MiraiEconomyCore.id)
-    @Comment("是否注册自带的经济服务")
-    public var registerSimpleEconomyService: Boolean by value(true)
 }

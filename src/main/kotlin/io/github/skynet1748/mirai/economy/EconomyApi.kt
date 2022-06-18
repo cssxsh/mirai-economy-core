@@ -12,12 +12,14 @@ public object EconomyApi {
     /**
      * 获取已注册的所有经济服务插件ID
      */
+    @JvmStatic
     public val services: Set<String>
         get() = registeredEconomy.keys
 
     /**
      * 获取已注册的经济服务
      */
+    @JvmStatic
     @JvmOverloads
     public operator fun get(pluginId: String = EconomyApiConfig.defaultEconomyService): IEconomyService? =
         registeredEconomy[pluginId]
@@ -28,6 +30,7 @@ public object EconomyApi {
      * @param service 经济服务实例
      * @param setToDefault 是否将该经济服务设为默认值
      */
+    @JvmStatic
     @JvmOverloads
     public fun register(pluginId: String, service: IEconomyService, setToDefault: Boolean = true) {
         if (registeredEconomy.containsKey(pluginId)) {
@@ -43,12 +46,14 @@ public object EconomyApi {
      * 获取经济服务是否已注册
      * @param pluginId 插件ID
      */
+    @JvmStatic
     public fun has(pluginId: String): Boolean = registeredEconomy.containsKey(pluginId)
 
     /**
      * 注销经济服务
      * @param pluginId 插件ID
      */
+    @JvmStatic
     public fun unregister(pluginId: String) {
         registeredEconomy.remove(pluginId)
     }

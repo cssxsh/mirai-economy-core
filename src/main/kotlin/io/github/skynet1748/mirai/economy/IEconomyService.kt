@@ -1,17 +1,11 @@
-@file:JvmBlockingBridge
-
 package io.github.skynet1748.mirai.economy
-
-import me.him188.kotlin.jvm.blocking.bridge.JvmBlockingBridge
 
 /**
  * 经济服务，用于存取数据和获取经济上下文
- *
- * 默认实现请见 [默认经济服务][io.github.skynet1748.mirai.economy.default.SimpleEconomyService]
  */
 public interface IEconomyService {
-    public fun getGlobalContext(): IEconomyContext
-    public fun getGroupContext(groupId: Long): IEconomyContext
+    public fun getGlobalContext(): IEconomyContextGlobal
+    public fun getGroupContext(groupId: Long): IEconomyContextGroup
 }
 
 /**
@@ -68,15 +62,11 @@ public interface IEconomyContext {
 
 /**
  * 全局上下文，适用于好友等非群聊环境
- *
- * 默认实现请见 [默认全局上下文][io.github.skynet1748.mirai.economy.default.SimpleContextGlobal]
  */
 public interface IEconomyContextGlobal : IEconomyContext
 
 /**
  * 群聊上下文，适用于群聊环境
- *
- * 默认实现请见 [默认群聊上下文][io.github.skynet1748.mirai.economy.default.SimpleContextGroup]
  */
 public interface IEconomyContextGroup : IEconomyContext {
     public val groupId: Long

@@ -50,7 +50,8 @@ val context : IEconomyContext = economy.getGlobalContext()
 
 根据需求，你可能需要实现一个全新的经济服务。详见 [IEconomyService](src/main/kotlin/io/github/skynet1748/mirai/economy/IEconomyService.kt) 及其注释
 
-默认实现参考 [SimpleEconomyService](src/main/kotlin/io/github/skynet1748/mirai/economy/default/SimpleEconomyService.kt)
+> kotlin 实现参考 [test/SimpleEconomyService](src/test/kotlin/SimpleEconomyService.kt)  
+> Java 实现参考 [test/JavaEconomyService](src/test/java/JavaEconomyService.java)
 
 实现经济服务之后，只需注册到经济 API 即可
 

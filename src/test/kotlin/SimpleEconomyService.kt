@@ -1,9 +1,4 @@
-@file:JvmBlockingBridge
-
-package io.github.skynet1748.mirai.economy.default
-
 import io.github.skynet1748.mirai.economy.*
-import me.him188.kotlin.jvm.blocking.bridge.JvmBlockingBridge
 import net.mamoe.mirai.console.data.AutoSavePluginData
 import net.mamoe.mirai.console.data.value
 import kotlin.streams.toList
@@ -11,7 +6,7 @@ import kotlin.streams.toList
 /**
  * 从文件中即时读写数据的默认经济实现
  */
-public object SimpleEconomyService : IEconomyService {
+object SimpleEconomyService : IEconomyService {
     internal val globalData: SimpleData = SimpleData()
     private val groupData = mutableMapOf<Long, SimpleData>()
 
@@ -27,16 +22,16 @@ public object SimpleEconomyService : IEconomyService {
         return data
     }
 
-    override fun getGlobalContext(): IEconomyContext = SimpleContextGlobal(this)
+    override fun getGlobalContext(): IEconomyContextGlobal = SimpleContextGlobal(this)
 
-    override fun getGroupContext(groupId: Long): IEconomyContext = SimpleContextGroup(this, groupId)
+    override fun getGroupContext(groupId: Long): IEconomyContextGroup = SimpleContextGroup(this, groupId)
 }
 
 /**
  * 默认经济配置文件
  */
-public class SimpleData(path: String = "global") : AutoSavePluginData("data/$path") {
-    public val users: MutableMap<Long, Double> by value()
+class SimpleData(path: String = "global") : AutoSavePluginData("data/$path") {
+    val users: MutableMap<Long, Double> by value()
 }
 
 /**
@@ -44,7 +39,7 @@ public class SimpleData(path: String = "global") : AutoSavePluginData("data/$pat
  *
  * 配置文件将存在 /data/$MiraiEconomyCore.id/data/global.yml
  */
-public class SimpleContextGlobal(override val service: SimpleEconomyService) : IEconomyContextGlobal {
+class SimpleContextGlobal(override val service: SimpleEconomyService) : IEconomyContextGlobal {
     override val name: String = "全局"
     override fun createAccount(userId: Long, money: Double) {
         service.globalData.users[userId] = money
@@ -98,7 +93,7 @@ public class SimpleContextGlobal(override val service: SimpleEconomyService) : I
  *
  * 配置文件将存在 /data/$MiraiEconomyCore.id/data/groups/$groupId.yml
  */
-public class SimpleContextGroup(
+class SimpleContextGroup(
     override val service: SimpleEconomyService,
     override val groupId: Long
 ) : IEconomyContextGroup {
