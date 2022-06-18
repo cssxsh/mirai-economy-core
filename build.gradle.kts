@@ -1,5 +1,3 @@
-import net.mamoe.mirai.console.gradle.BuildMiraiPluginTask
-
 plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.serialization") version "1.6.21"
@@ -50,9 +48,4 @@ tasks {
     test {
         useJUnitPlatform()
     }
-}
-
-// buildPluginLegacy
-tasks.withType<BuildMiraiPluginTask>() {
-    archiveBaseName.set("[Legacy]" + archiveBaseName.get())
 }
