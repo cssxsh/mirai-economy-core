@@ -27,6 +27,7 @@ repositories {
 dependencies {
     compileOnly("net.mamoe:mirai-core:2.11.1")
     compileOnly("net.mamoe:mirai-core-utils:2.11.1")
+    compileOnly("net.mamoe.yamlkt:yamlkt-jvm:0.10.2")
     compileOnly("me.him188:kotlin-jvm-blocking-bridge-runtime-jvm:2.0.0-162.1")
     api("com.cronutils:cron-utils:9.1.6") {
         exclude("org.slf4j")
