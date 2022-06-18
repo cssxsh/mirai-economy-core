@@ -27,9 +27,9 @@ public object SimpleEconomyService : IEconomyService {
         return data
     }
 
-    override suspend fun getGlobalContext(): IEconomyContext = SimpleContextGlobal(this)
+    override fun getGlobalContext(): IEconomyContext = SimpleContextGlobal(this)
 
-    override suspend fun getGroupContext(groupId: Long): IEconomyContext = SimpleContextGroup(this, groupId)
+    override fun getGroupContext(groupId: Long): IEconomyContext = SimpleContextGroup(this, groupId)
 }
 
 /**
@@ -46,15 +46,15 @@ public class SimpleData(path: String = "global") : AutoSavePluginData("data/$pat
  */
 public class SimpleContextGlobal(override val service: SimpleEconomyService) : IEconomyContextGlobal {
     override val name: String = "全局"
-    override suspend fun createAccount(userId: Long, money: Double) {
+    override fun createAccount(userId: Long, money: Double) {
         service.globalData.users[userId] = money
     }
 
-    override suspend fun hasAccount(userId: Long): Boolean {
+    override fun hasAccount(userId: Long): Boolean {
         return service.globalData.users.containsKey(userId)
     }
 
-    override suspend fun listAccounts(count: Int): List<Long> {
+    override fun listAccounts(count: Int): List<Long> {
         val result = listOf<Long>()
         if (count > 0) {
             var i = 0
@@ -68,25 +68,25 @@ public class SimpleContextGlobal(override val service: SimpleEconomyService) : I
         return service.globalData.users.keys.stream().toList()
     }
 
-    override suspend fun has(userId: Long, money: Double): Boolean {
+    override fun has(userId: Long, money: Double): Boolean {
         return get(userId) >= money
     }
 
-    override suspend fun get(userId: Long): Double {
+    override fun get(userId: Long): Double {
         return service.globalData.users.getOrDefault(userId, 0.0)
     }
 
-    override suspend fun set(userId: Long, money: Double) {
+    override fun set(userId: Long, money: Double) {
         service.globalData.users[userId] = money
     }
 
-    override suspend fun increase(userId: Long, money: Double): Double {
+    override fun increase(userId: Long, money: Double): Double {
         val m = get(userId) + money
         set(userId, m)
         return m
     }
 
-    override suspend fun decrease(userId: Long, money: Double): Double {
+    override fun decrease(userId: Long, money: Double): Double {
         val m = get(userId) - money
         set(userId, m)
         return m
@@ -105,15 +105,15 @@ public class SimpleContextGroup(
     override val name: String = "群$groupId"
     private val data: SimpleData = service.getGroupData(groupId)
 
-    override suspend fun createAccount(userId: Long, money: Double) {
+    override fun createAccount(userId: Long, money: Double) {
         data.users[userId] = money
     }
 
-    override suspend fun hasAccount(userId: Long): Boolean {
+    override fun hasAccount(userId: Long): Boolean {
         return data.users.containsKey(userId)
     }
 
-    override suspend fun listAccounts(count: Int): List<Long> {
+    override fun listAccounts(count: Int): List<Long> {
         val result = listOf<Long>()
         if (count > 0) {
             var i = 0
@@ -127,25 +127,25 @@ public class SimpleContextGroup(
         return data.users.keys.stream().toList()
     }
 
-    override suspend fun has(userId: Long, money: Double): Boolean {
+    override fun has(userId: Long, money: Double): Boolean {
         return get(userId) >= money
     }
 
-    override suspend fun get(userId: Long): Double {
+    override fun get(userId: Long): Double {
         return data.users.getOrDefault(userId, 0.0)
     }
 
-    override suspend fun set(userId: Long, money: Double) {
+    override fun set(userId: Long, money: Double) {
         data.users[userId] = money
     }
 
-    override suspend fun increase(userId: Long, money: Double): Double {
+    override fun increase(userId: Long, money: Double): Double {
         val m = get(userId) + money
         set(userId, m)
         return m
     }
 
-    override suspend fun decrease(userId: Long, money: Double): Double {
+    override fun decrease(userId: Long, money: Double): Double {
         val m = get(userId) - money
         set(userId, m)
         return m

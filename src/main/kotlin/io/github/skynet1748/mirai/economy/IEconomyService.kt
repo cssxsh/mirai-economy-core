@@ -10,8 +10,8 @@ import me.him188.kotlin.jvm.blocking.bridge.JvmBlockingBridge
  * 默认实现请见 [默认经济服务][io.github.skynet1748.mirai.economy.default.SimpleEconomyService]
  */
 public interface IEconomyService {
-    public suspend fun getGlobalContext(): IEconomyContext
-    public suspend fun getGroupContext(groupId: Long): IEconomyContext
+    public fun getGlobalContext(): IEconomyContext
+    public fun getGroupContext(groupId: Long): IEconomyContext
 }
 
 /**
@@ -27,43 +27,43 @@ public interface IEconomyContext {
     /**
      * 创建账户
      */
-    public suspend fun createAccount(userId: Long, money: Double = 0.0)
+    public fun createAccount(userId: Long, money: Double = 0.0)
 
     /**
      * 查询是否有该账户
      */
-    public suspend fun hasAccount(userId: Long): Boolean
+    public fun hasAccount(userId: Long): Boolean
 
     /**
      * 列出账户列表
      * @param count 列出的数量，0为无限制
      */
-    public suspend fun listAccounts(count: Int = 0): List<Long>
+    public fun listAccounts(count: Int = 0): List<Long>
 
     /**
      * 查询账户是否有足够的钱 (余额 >= money)
      */
-    public suspend fun has(userId: Long, money: Double): Boolean
+    public fun has(userId: Long, money: Double): Boolean
 
     /**
      * 获取账户余额
      */
-    public suspend fun get(userId: Long): Double
+    public fun get(userId: Long): Double
 
     /**
      * 设置账户余额
      */
-    public suspend fun set(userId: Long, money: Double)
+    public fun set(userId: Long, money: Double)
 
     /**
      * 将钱存入账户
      */
-    public suspend fun increase(userId: Long, money: Double): Double
+    public fun increase(userId: Long, money: Double): Double
 
     /**
      * 从账户中取钱
      */
-    public suspend fun decrease(userId: Long, money: Double): Double
+    public fun decrease(userId: Long, money: Double): Double
 }
 
 /**

@@ -4,7 +4,7 @@ import io.github.skynet1748.mirai.economy.IEconomyService;
 
 public class JavaTest {
     public static void main() {
-        IEconomyService economy = EconomyApi.INSTANCE.get();
+        IEconomyService economy = EconomyApi.INSTANCE.get("java");
         if (economy == null) {
             System.out.println("没有可用的经济服务");
             return;
