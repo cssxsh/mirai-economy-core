@@ -1,9 +1,13 @@
+import net.mamoe.mirai.console.gradle.BuildMiraiPluginTask
+
 plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.serialization") version "1.6.21"
 
     id("net.mamoe.mirai-console") version "2.11.1"
     id("net.mamoe.maven-central-publish") version "0.7.1"
+
+    id("me.him188.kotlin-jvm-blocking-bridge") version "2.0.0-162.1"
 }
 
 group = "io.github.skynet1748"
@@ -46,4 +50,9 @@ tasks {
     test {
         useJUnitPlatform()
     }
+}
+
+// buildPluginLegacy
+tasks.withType<BuildMiraiPluginTask>() {
+    archiveBaseName.set("[Legacy]" + archiveBaseName.get())
 }
