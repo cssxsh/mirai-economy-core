@@ -6,6 +6,7 @@ package io.github.skynet1748.mirai.economy.service
  * @param name 服务的名称
  * @see IEconomyService.create
  */
+@Target(AnnotationTarget.CLASS)
 public annotation class EconomyServiceName(
     val name: String
 )

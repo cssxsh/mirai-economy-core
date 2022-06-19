@@ -1,3 +1,5 @@
+@file:JvmName(name = "EconomyUtils")
+
 package io.github.skynet1748.mirai.economy
 
 import io.github.skynet1748.mirai.economy.service.*
@@ -8,23 +10,31 @@ import net.mamoe.mirai.event.events.*
 @DslMarker
 public annotation class EconomyDsl
 
-public val User.economy: IEconomyUserContext
-    get() = EconomyService.user(target = this)
-
-public fun <T> User.economy(block: IEconomyUserContext.() -> T): T {
-    return EconomyService.user(target = this).run(block)
+public fun globalEconomy(): GlobalEconomyContext {
+    return EconomyService.global
 }
 
-public val Group.economy: IEconomyGroupContext
-    get() = EconomyService.group(target = this)
-
-public fun <T> Group.economy(block: IEconomyGroupContext.() ->  T): T {
-    return EconomyService.group(target = this).run(block)
+public fun <T> globalEconomy(block: GlobalEconomyContext.() -> T): T {
+    return EconomyService.global.run(block)
 }
 
-public val MessageEvent.economy: IEconomyMessageContext
-    get() = EconomyService.message(target = this)
+public val User.economy: UserEconomyContext
+    get() = EconomyService.context(target = this)
 
-public fun <T> MessageEvent.economy(block: IEconomyMessageContext.() -> T): T {
-    return EconomyService.message(target = this).run(block)
+public fun <T> User.economy(block: UserEconomyContext.() -> T): T {
+    return EconomyService.context(target = this).run(block)
+}
+
+public val Group.economy: GroupEconomyContext
+    get() = EconomyService.context(target = this)
+
+public fun <T> Group.economy(block: GroupEconomyContext.() ->  T): T {
+    return EconomyService.context(target = this).run(block)
+}
+
+public val MessageEvent.economy: MessageEconomyContext
+    get() = EconomyService.context(target = this)
+
+public fun <T> MessageEvent.economy(block: MessageEconomyContext.() -> T): T {
+    return EconomyService.context(target = this).run(block)
 }
