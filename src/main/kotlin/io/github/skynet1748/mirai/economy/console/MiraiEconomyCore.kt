@@ -1,4 +1,4 @@
-package io.github.skynet1748.mirai.economy
+package io.github.skynet1748.mirai.economy.console
 
 import net.mamoe.mirai.console.plugin.jvm.*
 import net.mamoe.mirai.utils.*
