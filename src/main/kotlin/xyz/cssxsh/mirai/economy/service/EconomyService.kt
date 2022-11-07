@@ -1,4 +1,4 @@
-package io.github.skynet1748.mirai.economy.service
+package xyz.cssxsh.mirai.economy.service
 
 import net.mamoe.mirai.utils.*
 import java.util.*
@@ -38,7 +38,7 @@ public interface IEconomyService : EconomyContextManager, EconomyAccountManager,
         internal val loaders: MutableList<ServiceLoader<IEconomyService>> = ArrayList()
 
         init {
-            loaders.add(ServiceLoader.load(IEconomyService::class.java))
+            loaders.add(ServiceLoader.load(IEconomyService::class.java, IEconomyService::class.java.classLoader))
         }
 
         /**
@@ -54,14 +54,12 @@ public interface IEconomyService : EconomyContextManager, EconomyAccountManager,
                 for (provider in loader.stream()) {
                     val clazz = provider.type()
 
-                    if (name != null) {
-                        if (name != clazz.getAnnotation(EconomyServiceName::class.java)?.name) {
-                            continue
-                        }
+                    if (name != null && name != clazz.getAnnotation(EconomyServiceName::class.java)?.name) {
+                        continue
                     }
 
                     try {
-                        provider.get()
+                        return provider.get()
                     } catch (cause: ServiceConfigurationError) {
                         logger.warning({ "创建 ${clazz.name} 服务失败" }, cause)
                     }

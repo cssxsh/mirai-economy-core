@@ -1,8 +1,8 @@
-package io.github.skynet1748.mirai.economy.service
+package xyz.cssxsh.mirai.economy.service
 
-import io.github.skynet1748.mirai.economy.*
 import net.mamoe.mirai.*
 import net.mamoe.mirai.contact.*
+import xyz.cssxsh.mirai.economy.*
 import kotlin.jvm.*
 
 /**

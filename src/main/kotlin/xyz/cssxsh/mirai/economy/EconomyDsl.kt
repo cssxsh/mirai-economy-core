@@ -1,12 +1,12 @@
 @file:JvmName(name = "EconomyUtils")
 
-package io.github.skynet1748.mirai.economy
+package xyz.cssxsh.mirai.economy
 
-import io.github.skynet1748.mirai.economy.service.*
 import net.mamoe.mirai.*
 import net.mamoe.mirai.contact.*
 import net.mamoe.mirai.event.*
 import net.mamoe.mirai.event.events.*
+import xyz.cssxsh.mirai.economy.service.*
 
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.TYPE)
 @DslMarker

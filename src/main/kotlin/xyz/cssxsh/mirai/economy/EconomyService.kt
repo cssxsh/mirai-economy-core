@@ -1,6 +1,6 @@
-package io.github.skynet1748.mirai.economy
+package xyz.cssxsh.mirai.economy
 
-import io.github.skynet1748.mirai.economy.service.*
+import xyz.cssxsh.mirai.economy.service.*
 
 /**
  * 经济服务实例
@@ -18,4 +18,4 @@ import io.github.skynet1748.mirai.economy.service.*
  * @see EconomyServiceName
  * @see IEconomyService.Factory.create
  */
-public object EconomyService : IEconomyService by IEconomyService.create()
+public object EconomyService : IEconomyService by IEconomyService.create(System.getProperty(IEconomyService.NAME_KEY))

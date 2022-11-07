@@ -1,4 +1,4 @@
-package io.github.skynet1748.mirai.economy.service
+package xyz.cssxsh.mirai.economy.service
 
 import net.mamoe.mirai.contact.*
 import kotlin.jvm.*
