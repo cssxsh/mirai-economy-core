@@ -3,38 +3,78 @@
 package io.github.skynet1748.mirai.economy
 
 import io.github.skynet1748.mirai.economy.service.*
+import net.mamoe.mirai.*
 import net.mamoe.mirai.contact.*
+import net.mamoe.mirai.event.*
 import net.mamoe.mirai.event.events.*
 
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.TYPE)
 @DslMarker
 public annotation class EconomyDsl
 
+@EconomyDsl
+@JvmName("getGlobalEconomy")
 public fun globalEconomy(): GlobalEconomyContext {
-    return EconomyService.global
+    return EconomyService.global()
 }
 
+@EconomyDsl
+@JvmName("runGlobalEconomy")
 public fun <T> globalEconomy(block: GlobalEconomyContext.() -> T): T {
-    return EconomyService.global.run(block)
+    return globalEconomy().run(block)
 }
 
-public val User.economy: UserEconomyContext
-    get() = EconomyService.context(target = this)
-
-public fun <T> User.economy(block: UserEconomyContext.() -> T): T {
-    return EconomyService.context(target = this).run(block)
+@EconomyDsl
+@JvmName("getEconomy")
+public fun Bot.economy(): BotEconomyContext {
+    return EconomyService.context(target = this)
 }
 
-public val Group.economy: GroupEconomyContext
-    get() = EconomyService.context(target = this)
+@EconomyDsl
+@JvmName("runEconomy")
+public fun <T> Bot.economy(block: BotEconomyContext.() ->  T): T {
+    return economy().run(block)
+}
 
+@EconomyDsl
+@JvmName("getEconomy")
+public fun Group.economy(): GroupEconomyContext {
+    return EconomyService.context(target = this)
+}
+
+@EconomyDsl
+@JvmName("runEconomy")
 public fun <T> Group.economy(block: GroupEconomyContext.() ->  T): T {
-    return EconomyService.context(target = this).run(block)
+    return economy().run(block)
 }
 
-public val MessageEvent.economy: MessageEconomyContext
-    get() = EconomyService.context(target = this)
+@EconomyDsl
+@JvmName("getEconomy")
+public fun Contact.economy(): EconomyContext {
+    return when (this) {
+        is Group -> economy()
+        else -> bot.economy()
+    }
+}
 
-public fun <T> MessageEvent.economy(block: MessageEconomyContext.() -> T): T {
-    return EconomyService.context(target = this).run(block)
+@EconomyDsl
+@JvmName("runEconomy")
+public fun <T> Contact.economy(block: EconomyContext.() ->  T): T {
+    return economy().run(block)
+}
+
+@EconomyDsl
+@JvmName("getEconomy")
+public fun Event.economy(): EconomyContext {
+    return when (this) {
+        is GroupEvent -> group.economy()
+        is BotEvent -> bot.economy()
+        else -> globalEconomy()
+    }
+}
+
+@EconomyDsl
+@JvmName("runEconomy")
+public fun <T> Event.economy(block: EconomyContext.() ->  T): T {
+    return economy().run(block)
 }

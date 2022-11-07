@@ -1,12 +1,20 @@
 package io.github.skynet1748.mirai.economy.service
 
 import net.mamoe.mirai.contact.*
+import kotlin.jvm.*
 
 /**
  * 经济账户
  */
 public sealed interface EconomyAccount {
+    /**
+     * 账户ID
+     */
     public val uuid: String
+
+    /**
+     * 账户简介
+     */
     public val description: String
 }
 
@@ -29,7 +37,14 @@ public interface GroupEconomyAccount : EconomyAccount {
  */
 public interface CustomEconomyAccount : EconomyAccount
 
-/**
- * 空账户，可以无限转入转出
- */
-public interface EmptyEconomyAccount : EconomyAccount
+public interface EconomyAccountManager {
+
+    @Throws(UnsupportedOperationException::class, NoSuchElementException::class)
+    public fun account(user: User): UserEconomyAccount
+
+    @Throws(UnsupportedOperationException::class, NoSuchElementException::class)
+    public fun account(group: Group): GroupEconomyAccount
+
+    @Throws(UnsupportedOperationException::class, NoSuchElementException::class)
+    public fun account(uuid: String, description: String): CustomEconomyAccount
+}
