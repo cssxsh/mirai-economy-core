@@ -44,12 +44,13 @@ public interface IEconomyService : EconomyContextManager, EconomyAccountManager,
         /**
          * 创建经纪服务实例
          * @param name 指定的服务名称
-         * @throws RuntimeException 无法实例化插件服务
+         * @throws UnsupportedOperationException 无法实例化插件服务
          * @see NAME_KEY System Property Key，可以用于指定服务
          * @see loaders 可用的服务加载器示例
          */
-        @Throws(RuntimeException::class)
+        @Throws(UnsupportedOperationException::class)
         public fun create(name: String?): IEconomyService {
+            var error: ServiceConfigurationError? = null
             for (loader in loaders) {
                 for (provider in loader.stream()) {
                     val clazz = provider.type()
@@ -61,12 +62,13 @@ public interface IEconomyService : EconomyContextManager, EconomyAccountManager,
                     try {
                         return provider.get()
                     } catch (cause: ServiceConfigurationError) {
+                        error = cause
                         logger.warning({ "创建 ${clazz.name} 服务失败" }, cause)
                     }
                 }
             }
 
-            throw RuntimeException("无法创建 EconomyService")
+            throw UnsupportedOperationException("无法创建 EconomyService 服务", error)
         }
     }
 }
