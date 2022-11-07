@@ -22,6 +22,7 @@ public sealed interface EconomyContext {
     /**
      * 硬通货币
      */
+    @EconomyDsl
     @get:Throws(UnsupportedOperationException::class)
     public val hard: EconomyCurrency
 

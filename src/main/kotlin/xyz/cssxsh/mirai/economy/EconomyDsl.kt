@@ -8,7 +8,7 @@ import net.mamoe.mirai.event.*
 import net.mamoe.mirai.event.events.*
 import xyz.cssxsh.mirai.economy.service.*
 
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.TYPE)
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.TYPE, AnnotationTarget.PROPERTY)
 @DslMarker
 public annotation class EconomyDsl
 
@@ -32,7 +32,7 @@ public fun Bot.economy(): BotEconomyContext {
 
 @EconomyDsl
 @JvmName("runEconomy")
-public fun <T> Bot.economy(block: BotEconomyContext.() ->  T): T {
+public fun <T> Bot.economy(block: BotEconomyContext.() -> T): T {
     return economy().run(block)
 }
 
@@ -44,7 +44,7 @@ public fun Group.economy(): GroupEconomyContext {
 
 @EconomyDsl
 @JvmName("runEconomy")
-public fun <T> Group.economy(block: GroupEconomyContext.() ->  T): T {
+public fun <T> Group.economy(block: GroupEconomyContext.() -> T): T {
     return economy().run(block)
 }
 
@@ -59,7 +59,7 @@ public fun Contact.economy(): EconomyContext {
 
 @EconomyDsl
 @JvmName("runEconomy")
-public fun <T> Contact.economy(block: EconomyContext.() ->  T): T {
+public fun <T> Contact.economy(block: EconomyContext.() -> T): T {
     return economy().run(block)
 }
 
@@ -75,6 +75,6 @@ public fun Event.economy(): EconomyContext {
 
 @EconomyDsl
 @JvmName("runEconomy")
-public fun <T> Event.economy(block: EconomyContext.() ->  T): T {
+public fun <T> Event.economy(block: EconomyContext.() -> T): T {
     return economy().run(block)
 }
