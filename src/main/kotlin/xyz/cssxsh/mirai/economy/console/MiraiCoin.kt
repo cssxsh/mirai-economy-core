@@ -2,6 +2,9 @@ package xyz.cssxsh.mirai.economy.console
 
 import xyz.cssxsh.mirai.economy.service.*
 
+/**
+ * 默认货币
+ */
 public object MiraiCoin : EconomyCurrency {
     override val id: String = "mirai-coin"
     override val name: String = "Mirai 币"
