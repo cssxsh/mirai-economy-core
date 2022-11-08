@@ -22,6 +22,9 @@ public sealed interface EconomyAccount {
  * 用户账户
  */
 public interface UserEconomyAccount : EconomyAccount {
+    /**
+     * 对应的 User
+     */
     public val user: User
 }
 
@@ -29,6 +32,9 @@ public interface UserEconomyAccount : EconomyAccount {
  * 群组账户
  */
 public interface GroupEconomyAccount : EconomyAccount {
+    /**
+     * 对应的 群组
+     */
     public val group: Group
 }
 
@@ -37,14 +43,30 @@ public interface GroupEconomyAccount : EconomyAccount {
  */
 public interface CustomEconomyAccount : EconomyAccount
 
+/**
+ * 账号管理器，用于管理账户信息
+ */
 public interface EconomyAccountManager {
 
+    /**
+     * 获取对应 [user] 的账户
+     * @param user 用户
+     */
     @Throws(UnsupportedOperationException::class, NoSuchElementException::class)
     public fun account(user: User): UserEconomyAccount
 
+    /**
+     * 获取对应 [group] 的账户
+     * @param group 用户
+     */
     @Throws(UnsupportedOperationException::class, NoSuchElementException::class)
     public fun account(group: Group): GroupEconomyAccount
 
+    /**
+     * 获取对应 [uuid] 的账户
+     * @param uuid 用户
+     * @param description 用户描述
+     */
     @Throws(UnsupportedOperationException::class, NoSuchElementException::class)
     public fun account(uuid: String, description: String): CustomEconomyAccount
 }

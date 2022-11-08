@@ -30,17 +30,23 @@ public sealed interface EconomyContext {
 
     /**
      * 获取余额
+     * @param currency 币种
      */
     @EconomyDsl
     @Throws(UnsupportedOperationException::class)
     public operator fun EconomyAccount.get(currency: EconomyCurrency): Double
 
+    /**
+     * 获取各个币种的余额
+     */
     @EconomyDsl
     @Throws(UnsupportedOperationException::class)
     public fun EconomyAccount.balance(): Map<EconomyCurrency, Double>
 
     /**
      * 设置余额
+     * @param currency 币种
+     * @param quantity 金额
      */
     @EconomyDsl
     @Throws(UnsupportedOperationException::class)
@@ -58,13 +64,15 @@ public sealed interface EconomyContext {
 
     /**
      * 添加余额
+     * @param currency 币种
+     * @param quantity 金额
      */
     @EconomyDsl
     @Throws(UnsupportedOperationException::class)
     public fun EconomyAccount.plusAssign(currency: EconomyCurrency, quantity: Double)
 
     /**
-     * 添加余额
+     * 减少余额
      */
     @EconomyDsl
     @JvmSynthetic
@@ -74,7 +82,9 @@ public sealed interface EconomyContext {
     }
 
     /**
-     * 添加余额
+     * 减少余额
+     * @param currency 币种
+     * @param quantity 金额
      */
     @EconomyDsl
     @Throws(UnsupportedOperationException::class)
@@ -83,16 +93,34 @@ public sealed interface EconomyContext {
     // endregion
 }
 
+/**
+ * 全局上下文
+ */
 public interface GlobalEconomyContext : EconomyContext
 
+/**
+ * BOT上下文
+ */
 public interface BotEconomyContext : EconomyContext {
+    /**
+     * 对应的 BOT
+     */
     public val bot: Bot
 }
 
+/**
+ * 群组上下文
+ */
 public interface GroupEconomyContext : EconomyContext {
+    /**
+     * 对应的群组
+     */
     public val group: Group
 }
 
+/**
+ * 上下文管理器
+ */
 public interface EconomyContextManager {
 
     /**

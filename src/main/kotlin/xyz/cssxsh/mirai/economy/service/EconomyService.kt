@@ -28,6 +28,10 @@ public interface IEconomyService : EconomyContextManager, EconomyAccountManager,
     @Throws(java.io.IOException::class)
     public override fun close()
 
+    /**
+     * 经济服务构建工厂
+     * @property create 创建经纪服务实例
+     */
     public companion object Factory {
         private val logger: MiraiLogger = MiraiLogger.Factory.create(Factory::class.java)
         internal const val NAME_KEY: String = "io.github.skynet1748.mirai.economy.service"
