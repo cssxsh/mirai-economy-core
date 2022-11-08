@@ -28,8 +28,8 @@ public interface EconomyCurrencyManager {
     /**
      * 注册货币
      * @param currency 货币实例
-     * @throws IllegalArgumentException 货币已存在
+     * @throws UnsupportedOperationException 货币已存在等错误
      */
-    @Throws(IllegalArgumentException::class)
+    @Throws(UnsupportedOperationException::class)
     public fun register(currency: EconomyCurrency, override: Boolean = false)
 }
