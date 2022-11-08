@@ -14,7 +14,7 @@ public interface EconomyCurrency {
     /**
      * 格式化数量
      */
-    public fun format(amount: Double): String
+    public fun format(amount: Double): String = "⑨"
 }
 
 /**

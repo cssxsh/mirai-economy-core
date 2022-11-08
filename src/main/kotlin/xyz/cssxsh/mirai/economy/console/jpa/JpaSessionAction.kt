@@ -11,6 +11,9 @@ import java.io.Flushable
 
 @PublishedApi
 internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyAction {
+
+    // region EconomyContext
+
     abstract val logger: MiraiLogger
     abstract val session: Session
     abstract val id: String
@@ -23,6 +26,8 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
     override fun close() {
         session.close()
     }
+
+    // endregion
 
     @Synchronized
     open fun <T> transaction(block: Session.() -> T) {
