@@ -26,13 +26,13 @@ public fun globalEconomy(): GlobalEconomyContext {
 }
 
 /**
- * 在全局经济上下文中运行
+ * 使用全局经济上下文
  * @see GlobalEconomyContext
  */
 @EconomyDsl
-@JvmName("runGlobalEconomy")
+@JvmName("useGlobalEconomy")
 public fun <T> globalEconomy(block: GlobalEconomyContext.() -> T): T {
-    return globalEconomy().run(block)
+    return globalEconomy().use(block)
 }
 
 /**
@@ -46,13 +46,13 @@ public fun Bot.economy(): BotEconomyContext {
 }
 
 /**
- * 在Bot经济上下文中运行
+ * 使用Bot经济上下文中
  * @see BotEconomyContext
  */
 @EconomyDsl
-@JvmName("runEconomy")
+@JvmName("useEconomy")
 public fun <T> Bot.economy(block: BotEconomyContext.() -> T): T {
-    return economy().run(block)
+    return economy().use(block)
 }
 
 /**
@@ -66,13 +66,13 @@ public fun Group.economy(): GroupEconomyContext {
 }
 
 /**
- * 在Group经济上下文中运行
+ * 使用Group经济上下文
  * @see GroupEconomyContext
  */
 @EconomyDsl
-@JvmName("runEconomy")
+@JvmName("useEconomy")
 public fun <T> Group.economy(block: GroupEconomyContext.() -> T): T {
-    return economy().run(block)
+    return economy().use(block)
 }
 
 /**
@@ -90,40 +90,12 @@ public fun Contact.economy(): EconomyContext {
 }
 
 /**
- * 在经济上下文中运行
+ * 使用经济上下文
  * @see GroupEconomyContext
  * @see BotEconomyContext
  */
 @EconomyDsl
-@JvmName("runEconomy")
+@JvmName("useEconomy")
 public fun <T> Contact.economy(block: EconomyContext.() -> T): T {
-    return economy().run(block)
-}
-
-/**
- * 获取经济上下文
- * @see GroupEconomyContext
- * @see BotEconomyContext
- * @see GlobalEconomyContext
- */
-@EconomyDsl
-@JvmName("getEconomy")
-public fun Event.economy(): EconomyContext {
-    return when (this) {
-        is GroupEvent -> group.economy()
-        is BotEvent -> bot.economy()
-        else -> globalEconomy()
-    }
-}
-
-/**
- * 在经济上下文中运行
- * @see GroupEconomyContext
- * @see BotEconomyContext
- * @see GlobalEconomyContext
- */
-@EconomyDsl
-@JvmName("runEconomy")
-public fun <T> Event.economy(block: EconomyContext.() -> T): T {
-    return economy().run(block)
+    return economy().use(block)
 }

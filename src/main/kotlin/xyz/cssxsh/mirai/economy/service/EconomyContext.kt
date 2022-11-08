@@ -3,12 +3,15 @@ package xyz.cssxsh.mirai.economy.service
 import net.mamoe.mirai.*
 import net.mamoe.mirai.contact.*
 import xyz.cssxsh.mirai.economy.*
+import java.io.*
 import kotlin.jvm.*
 
 /**
  * 经济上下文, 不同种类的上下文对应不同的场景
+ * @property flush
+ * @property close
  */
-public sealed interface EconomyContext {
+public sealed interface EconomyContext : Flushable, AutoCloseable {
     /**
      * 上下文的ID，ID 相同的上下文应该是等价的
      */
@@ -24,7 +27,8 @@ public sealed interface EconomyContext {
      */
     @EconomyDsl
     @get:Throws(UnsupportedOperationException::class)
-    public val hard: EconomyCurrency
+    @set:Throws(UnsupportedOperationException::class)
+    public var hard: EconomyCurrency
 
     // region Action
 

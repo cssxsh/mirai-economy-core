@@ -1,6 +1,7 @@
 package xyz.cssxsh.mirai.economy.service
 
 import kotlin.jvm.*
+import kotlin.properties.*
 
 /**
  * 货币
@@ -33,3 +34,8 @@ public interface EconomyCurrencyManager {
     @Throws(UnsupportedOperationException::class)
     public fun register(currency: EconomyCurrency, override: Boolean = false)
 }
+
+/**
+ * 硬通货币代理
+ */
+public typealias HardCurrencyDelegate = ReadWriteProperty<EconomyContext, EconomyCurrency>
