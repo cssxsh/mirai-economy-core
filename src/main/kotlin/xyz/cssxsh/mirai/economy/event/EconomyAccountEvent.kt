@@ -1,4 +1,4 @@
-package xyz.cssxsh.mirai.economy.event;
+package xyz.cssxsh.mirai.economy.event
 
 import xyz.cssxsh.mirai.economy.service.*
 

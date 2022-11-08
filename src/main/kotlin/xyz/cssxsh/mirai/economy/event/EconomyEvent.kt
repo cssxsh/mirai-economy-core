@@ -1,10 +1,10 @@
-package xyz.cssxsh.mirai.economy.event;
+package xyz.cssxsh.mirai.economy.event
 
 import net.mamoe.mirai.event.*
 import xyz.cssxsh.mirai.economy.service.*
 
 /**
- * 经济服务相关插件
+ * 经济服务相关事件
  */
 public interface EconomyEvent : Event {
     /**
