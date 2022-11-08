@@ -7,6 +7,7 @@ import kotlin.properties.*
  * 货币
  */
 public interface EconomyCurrency {
+    public val id: String
     public val name: String
     public val description: String
 

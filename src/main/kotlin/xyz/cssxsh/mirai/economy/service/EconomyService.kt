@@ -105,7 +105,37 @@ public interface IEconomyService : EconomyContextManager, EconomyAccountManager,
  */
 public abstract class AbstractEconomyService : IEconomyService, CoroutineScope {
     protected open val logger: MiraiLogger = MiraiLogger.Factory.create(this::class.java)
-    protected abstract val folder: Path
+    protected open var folder: Path = Path.of("economy")
+
+    override fun reload(folder: Path) {
+        this.folder = folder
+        // ...
+    }
+
+    // region Currency
+
+    protected open val currencies: MutableMap<String, EconomyCurrency> = ConcurrentHashMap()
+
+    override val basket: Map<String, EconomyCurrency> get() = currencies.asImmutable()
+
+    @Synchronized
+    public override fun register(currency: EconomyCurrency, override: Boolean) {
+        if (currency.name !in basket || override) {
+            val event = EconomyCurrencyRegisteredEvent(
+                currency = currency,
+                service = this
+            )
+            broadcast(event) {
+                currencies[currency.name] = currency
+            }
+        } else {
+            throw UnsupportedOperationException("货币已存在")
+        }
+    }
+
+    protected abstract val hard: HardCurrencyDelegate
+
+    // endregion
 }
 
 

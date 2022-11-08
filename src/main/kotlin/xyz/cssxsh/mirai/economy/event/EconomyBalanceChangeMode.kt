@@ -20,5 +20,15 @@ public enum class EconomyBalanceChangeMode {
     /**
      * 被减少
      */
-    MINUS
+    MINUS,
+
+    /**
+     * 被乘
+     */
+    TIMES,
+
+    /**
+     * 被除
+     */
+    DIV
 }

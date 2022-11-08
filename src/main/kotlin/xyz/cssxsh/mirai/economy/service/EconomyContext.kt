@@ -7,30 +7,9 @@ import java.io.*
 import kotlin.jvm.*
 
 /**
- * 经济上下文, 不同种类的上下文对应不同的场景
- * @property flush
- * @property close
+ * 经济操作
  */
-public sealed interface EconomyContext : Flushable, AutoCloseable {
-    /**
-     * 上下文的ID，ID 相同的上下文应该是等价的
-     */
-    public val id: String
-
-    /**
-     * 上下文所属的插件服务
-     */
-    public val service: IEconomyService
-
-    /**
-     * 硬通货币
-     */
-    @EconomyDsl
-    @get:Throws(UnsupportedOperationException::class)
-    @set:Throws(UnsupportedOperationException::class)
-    public var hard: EconomyCurrency
-
-    // region Action
+public interface EconomyAction {
 
     /**
      * 获取余额
@@ -94,7 +73,68 @@ public sealed interface EconomyContext : Flushable, AutoCloseable {
     @Throws(UnsupportedOperationException::class)
     public fun EconomyAccount.minusAssign(currency: EconomyCurrency, quantity: Double)
 
-    // endregion
+    /**
+     * 加倍余额
+     */
+    @EconomyDsl
+    @JvmSynthetic
+    @Throws(UnsupportedOperationException::class)
+    public operator fun EconomyAccount.timesAssign(value: Pair<EconomyCurrency, Double>) {
+        return timesAssign(value.first, value.second)
+    }
+
+    /**
+     * 加倍余额
+     * @param currency 币种
+     * @param quantity 金额
+     */
+    @EconomyDsl
+    @Throws(UnsupportedOperationException::class)
+    public fun EconomyAccount.timesAssign(currency: EconomyCurrency, quantity: Double)
+
+    /**
+     * 减倍余额
+     */
+    @EconomyDsl
+    @JvmSynthetic
+    @Throws(UnsupportedOperationException::class)
+    public operator fun EconomyAccount.divAssign(value: Pair<EconomyCurrency, Double>) {
+        return divAssign(value.first, value.second)
+    }
+
+    /**
+     * 减以余额
+     * @param currency 币种
+     * @param quantity 金额
+     */
+    @EconomyDsl
+    @Throws(UnsupportedOperationException::class)
+    public fun EconomyAccount.divAssign(currency: EconomyCurrency, quantity: Double)
+}
+
+/**
+ * 经济上下文, 不同种类的上下文对应不同的场景
+ * @property flush
+ * @property close
+ */
+public sealed interface EconomyContext : Flushable, AutoCloseable, EconomyAction {
+    /**
+     * 上下文的ID，ID 相同的上下文应该是等价的
+     */
+    public val id: String
+
+    /**
+     * 上下文所属的插件服务
+     */
+    public val service: IEconomyService
+
+    /**
+     * 硬通货币
+     */
+    @EconomyDsl
+    @get:Throws(UnsupportedOperationException::class)
+    @set:Throws(UnsupportedOperationException::class)
+    public var hard: EconomyCurrency
 }
 
 /**

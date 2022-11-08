@@ -41,7 +41,12 @@ public interface GroupEconomyAccount : EconomyAccount {
 /**
  * 自定义账户，可以用于实现共享经济/商店经济
  */
-public interface CustomEconomyAccount : EconomyAccount
+public interface CustomEconomyAccount : EconomyAccount {
+    /**
+     * 创建时间戳
+     */
+    public val created: Long
+}
 
 /**
  * 账号管理器，用于管理账户信息
@@ -68,5 +73,5 @@ public interface EconomyAccountManager {
      * @param description 用户描述
      */
     @Throws(UnsupportedOperationException::class, NoSuchElementException::class)
-    public fun account(uuid: String, description: String): CustomEconomyAccount
+    public fun account(uuid: String, description: String? = null): EconomyAccount
 }
