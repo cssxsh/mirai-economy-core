@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.7.20"
+    kotlin("plugin.jpa") version "1.7.20"
     kotlin("plugin.serialization") version "1.7.20"
 
     id("net.mamoe.mirai-console") version "2.13.0"
@@ -11,7 +12,7 @@ version = "1.0.0-dev"
 
 mavenCentralPublish {
     useCentralS01()
-    githubProject("skynet1748", "mirai-economy-core")
+    githubProject("cssxsh", "mirai-economy-core")
     licenseFromGitHubProject("AGPL-3.0")
     workingDir = System.getenv("PUBLICATION_TEMP")?.let { file(it).resolve(projectName) }
         ?: buildDir.resolve("publishing-tmp")
@@ -27,6 +28,7 @@ repositories {
 dependencies {
     compileOnly("net.mamoe:mirai-core:2.13.0")
     compileOnly("net.mamoe:mirai-core-utils:2.13.0")
+    compileOnly("xyz.cssxsh.mirai:mirai-hibernate-plugin:2.5.0-RC2")
 
     testImplementation(kotlin("test"))
 }
