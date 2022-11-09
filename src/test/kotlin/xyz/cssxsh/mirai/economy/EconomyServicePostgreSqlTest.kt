@@ -19,6 +19,6 @@ internal class EconomyServicePostgreSqlTest : EconomyServiceTest() {
                 hibernate.autoReconnect=true
             """.trimIndent()
         )
-        EconomyService.reload(folder = Path.of("debug-sandbox", "data"))
+        EconomyService.reload(folder = data)
     }
 }

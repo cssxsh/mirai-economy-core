@@ -17,6 +17,6 @@ internal class EconomyServiceH2Test : EconomyServiceTest() {
                 hibernate-connection-autocommit=true
             """.trimIndent()
         )
-        EconomyService.reload(folder = Path.of("debug-sandbox", "data"))
+        EconomyService.reload(folder = data)
     }
 }
