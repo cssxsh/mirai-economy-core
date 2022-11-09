@@ -7,7 +7,7 @@ import kotlin.io.path.writeText
 internal class EconomyServiceMysqlTest : EconomyServiceTest() {
     @BeforeAll
     fun reload() {
-        config.writeText(
+        config.resolve( "hibernate.properties").writeText(
             """
                 hibernate.connection.url=jdbc:mysql://localhost:3306/mirai?autoReconnect=true
                 hibernate.connection.CharSet=utf8mb4

@@ -10,10 +10,12 @@ import java.nio.file.Path
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal abstract class EconomyServiceTest : SimpleListenerHost() {
-    protected val config: Path = Path.of("debug-sandbox", "config", "xyz.cssxsh.mirai.plugin.mirai-economy-core", "hibernate.properties")
+    protected val config: Path = Path.of("debug-sandbox", "config", "xyz.cssxsh.mirai.plugin.mirai-economy-core")
+    protected val data: Path = Path.of("debug-sandbox", "data", "xyz.cssxsh.mirai.plugin.mirai-economy-core")
 
     init {
-        config.parent.toFile().mkdirs()
+        config.toFile().mkdirs()
+        data.toFile().mkdirs()
         registerTo(GlobalEventChannel)
     }
 

@@ -7,7 +7,7 @@ import kotlin.io.path.writeText
 internal class EconomyServiceH2Test : EconomyServiceTest() {
     @BeforeAll
     fun reload() {
-        config.writeText(
+        config.resolve( "hibernate.properties").writeText(
             """
                 hibernate.connection.url=jdbc:h2:file:debug-sandbox/data/xyz.cssxsh.mirai.plugin.mirai-economy-core/record.h2
                 hibernate.dialect=org.hibernate.dialect.H2Dialect
