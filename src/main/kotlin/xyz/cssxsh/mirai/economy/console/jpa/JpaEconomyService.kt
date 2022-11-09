@@ -1,7 +1,8 @@
 package xyz.cssxsh.mirai.economy.console.jpa
 
 import kotlinx.coroutines.*
-import net.mamoe.mirai.Bot
+import net.mamoe.mirai.*
+import net.mamoe.mirai.console.plugin.*
 import net.mamoe.mirai.contact.*
 import net.mamoe.mirai.utils.*
 import org.hibernate.*
@@ -10,6 +11,7 @@ import xyz.cssxsh.mirai.economy.console.entity.*
 import xyz.cssxsh.mirai.economy.service.*
 import xyz.cssxsh.mirai.hibernate.*
 import java.nio.file.*
+import java.util.*
 import kotlin.coroutines.*
 import kotlin.reflect.*
 
@@ -23,7 +25,7 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
     override val coroutineContext: CoroutineContext = kotlin.run {
         try {
             MiraiEconomyCorePlugin.coroutineContext
-        } catch (_: ExceptionInInitializerError) {
+        } catch (_: UninitializedPropertyAccessException) {
             CoroutineExceptionHandler { _, throwable ->
                 if (throwable.unwrapCancellationException() !is CancellationException) {
                     logger.error("Exception in coroutine JpaEconomyService", throwable)
@@ -35,7 +37,14 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
     @Synchronized
     override fun reload(folder: Path) {
         this.folder = folder
-        this.factory = MiraiHibernateConfiguration(plugin = MiraiEconomyCorePlugin)
+        val files: PluginFileExtensions = try {
+            MiraiEconomyCorePlugin.dataFolder
+            MiraiEconomyCorePlugin
+        } catch (_: UninitializedPropertyAccessException) {
+            ServiceLoader.load(PluginFileExtensions::class.java, this::class.java.classLoader)
+                .first()
+        }
+        this.factory = MiraiHibernateConfiguration(loader = MiraiHibernateLoader.Impl(files))
             .buildSessionFactory()
     }
 
@@ -54,13 +63,13 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
     public override val hard: HardCurrencyDelegate = object : HardCurrencyDelegate {
         override fun getValue(thisRef: EconomyContext, property: KProperty<*>): EconomyCurrency {
             return factory.fromSession { session ->
-                TODO()
+                TODO("get hard")
             }
         }
 
         override fun setValue(thisRef: EconomyContext, property: KProperty<*>, value: EconomyCurrency) {
             factory.fromTransaction { session ->
-                TODO()
+                TODO("set hard")
             }
         }
     }
@@ -90,7 +99,7 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
             record = factory.fromTransaction { session ->
                 val record = EconomyAccountRecord.fromUser(user = user)
                 session.merge(user)
-                session.refresh(record, LockMode.READ)
+                session.flush()
                 record
             },
             user = user
@@ -102,7 +111,7 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
             record = factory.fromTransaction { session ->
                 val record = EconomyAccountRecord.fromGroup(group = group)
                 session.merge(record)
-                session.refresh(record, LockMode.READ)
+                session.flush()
                 record
             },
             group = group
@@ -114,7 +123,7 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
             record = factory.fromTransaction { session ->
                 val record = EconomyAccountRecord.fromInfo(uuid = uuid, description = description)
                 session.merge(record)
-                session.refresh(record, LockMode.READ)
+                session.flush()
                 record
             }
         )
