@@ -37,7 +37,7 @@ internal abstract class EconomyServiceTest : SimpleListenerHost() {
         globalEconomy {
             val test2 = service.account(uuid = "test2", description = "test")
 
-            Assertions.assertTrue(test1[EconomyServiceTestCoin] > 0.0)
+            Assertions.assertTrue(test1[EconomyServiceTestCoin] >= 0.0)
             Assertions.assertEquals(0.0, test2[EconomyServiceTestCoin])
 
             test1[EconomyServiceTestCoin] = 1000.0

@@ -1,7 +1,6 @@
 package xyz.cssxsh.mirai.economy
 
 import org.junit.jupiter.api.BeforeAll
-import java.nio.file.Path
 import kotlin.io.path.writeText
 
 internal class EconomyServicePostgreSqlTest : EconomyServiceTest() {
