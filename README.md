@@ -29,3 +29,4 @@ mirai {
 ### 示例代码
 
 *   [kotlin](src/test/kotlin/xyz/cssxsh/mirai/economy/EconomyServiceTest.kt)
+*   [java](src/test/java/xyz/cssxsh/mirai/economy/EconomyUtilsTest.java)
