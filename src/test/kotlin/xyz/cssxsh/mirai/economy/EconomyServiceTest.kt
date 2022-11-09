@@ -1,9 +1,13 @@
 package xyz.cssxsh.mirai.economy
 
+import net.mamoe.mirai.event.*
+import net.mamoe.mirai.event.events.BotEvent
+import net.mamoe.mirai.event.events.GroupEvent
 import org.junit.jupiter.api.*
-import xyz.cssxsh.mirai.economy.service.EconomyCurrency
+import xyz.cssxsh.mirai.economy.event.*
+import xyz.cssxsh.mirai.economy.service.*
 
-internal class EconomyServiceTest {
+internal class EconomyServiceTest : SimpleListenerHost() {
     object EconomyServiceTestCoin : EconomyCurrency {
         override val id: String = "test"
         override val name: String = "TEST 币"
@@ -34,6 +38,42 @@ internal class EconomyServiceTest {
             test1 *= (EconomyServiceTestCoin to 10.0)
 
             test1 /= (EconomyServiceTestCoin to 5.0)
+        }
+    }
+
+    @EventHandler
+    fun EconomyServiceInitEvent.handle() {
+        service
+    }
+
+    @EventHandler
+    fun EconomyCurrencyRegisteredEvent.handle() {
+        service
+        currency
+    }
+
+
+    @EventHandler
+    fun EconomyBalanceChangeEvent.handle() {
+        account
+        service
+        currency
+        current
+        change
+        mode
+    }
+
+    @EventHandler
+    fun BotEvent.handle() {
+        bot.economy {
+            // ...
+        }
+    }
+
+    @EventHandler
+    fun GroupEvent.handle() {
+        group.economy {
+            // ...
         }
     }
 }
