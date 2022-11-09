@@ -120,13 +120,13 @@ public abstract class AbstractEconomyService : IEconomyService, CoroutineScope {
 
     @Synchronized
     public override fun register(currency: EconomyCurrency, override: Boolean) {
-        if (currency.name !in basket || override) {
+        if (currency.id !in basket || override) {
             val event = EconomyCurrencyRegisteredEvent(
                 currency = currency,
                 service = this
             )
             broadcast(event) {
-                currencies[currency.name] = currency
+                currencies[currency.id] = currency
             }
         } else {
             throw UnsupportedOperationException("货币已存在")

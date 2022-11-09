@@ -9,25 +9,28 @@ import xyz.cssxsh.mirai.economy.service.*
 import java.nio.file.Path
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal abstract class EconomyServiceTest : SimpleListenerHost() {
+internal abstract class EconomyServiceTest {
     protected val config: Path = Path.of("debug-sandbox", "config", "xyz.cssxsh.mirai.plugin.mirai-economy-core")
     protected val data: Path = Path.of("debug-sandbox", "data", "xyz.cssxsh.mirai.plugin.mirai-economy-core")
 
     init {
         config.toFile().mkdirs()
         data.toFile().mkdirs()
-        registerTo(GlobalEventChannel)
+        EconomyServiceTestListenerHost.registerTo(GlobalEventChannel)
     }
 
     @AfterAll
     fun close() {
         EconomyService.close()
-        cancel()
+        EconomyServiceTestListenerHost.cancel()
     }
 
     @Test
     fun `register currency`() {
         EconomyService.register(EconomyServiceTestCoin)
+        Assertions.assertThrows(EconomyEventCancelledException::class.java) {
+            EconomyService.register(EconomyServiceLaoLittleCoin)
+        }
         Assertions.assertIterableEquals(EconomyService.basket.values, listOf(EconomyServiceTestCoin))
     }
 
@@ -53,39 +56,16 @@ internal abstract class EconomyServiceTest : SimpleListenerHost() {
         }
     }
 
-    @EventHandler
-    fun EconomyServiceInitEvent.handle() {
-        service
-    }
-
-    @EventHandler
-    fun EconomyCurrencyRegisteredEvent.handle() {
-        service
-        currency
-    }
-
-
-    @EventHandler
-    fun EconomyBalanceChangeEvent.handle() {
-        account
-        service
-        currency
-        current
-        change
-        mode
-    }
-
-    @EventHandler
-    fun BotEvent.handle() {
-        bot.economy {
-            // ...
-        }
-    }
-
-    @EventHandler
-    fun GroupEvent.handle() {
-        group.economy {
-            // ...
+    @Test
+    fun `hard currency`() {
+        globalEconomy {
+            try {
+                hard
+            } catch (_: UnsupportedOperationException) {
+                //
+            }
+            hard = EconomyServiceTestCoin
+            Assertions.assertEquals(EconomyServiceTestCoin.id, hard.id)
         }
     }
 }

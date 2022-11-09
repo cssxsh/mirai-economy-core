@@ -63,13 +63,20 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
     public override val hard: HardCurrencyDelegate = object : HardCurrencyDelegate {
         override fun getValue(thisRef: EconomyContext, property: KProperty<*>): EconomyCurrency {
             return factory.fromSession { session ->
-                TODO("get hard")
+                val record = session[EconomyHardRecord::class.java, thisRef.id]
+                    ?: throw UnsupportedOperationException("${thisRef.id} 未设置硬通货币")
+                basket[record.currency]
+                    ?: throw UnsupportedOperationException("找不到货币 ${record.currency}")
             }
         }
 
         override fun setValue(thisRef: EconomyContext, property: KProperty<*>, value: EconomyCurrency) {
             factory.fromTransaction { session ->
-                TODO("set hard")
+                val record = EconomyHardRecord(
+                    context = thisRef.id,
+                    currency = value.id
+                )
+                session.merge(record)
             }
         }
     }

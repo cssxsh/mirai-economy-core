@@ -47,7 +47,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
     override fun EconomyAccount.get(currency: EconomyCurrency): Double {
         val index = EconomyAccountIndex(
             uuid = uuid,
-            currency = currency.name,
+            currency = currency.id,
             context = id
         )
         val record = session[EconomyBalanceRecord::class.java, index]
@@ -83,7 +83,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
         )
         val index = EconomyAccountIndex(
             uuid = uuid,
-            currency = currency.name,
+            currency = currency.id,
             context = id
         )
         val record = EconomyBalanceRecord(
@@ -109,7 +109,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
         )
         val index = EconomyAccountIndex(
             uuid = uuid,
-            currency = currency.name,
+            currency = currency.id,
             context = id
         )
         val record = EconomyBalanceRecord(
@@ -135,7 +135,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
         )
         val index = EconomyAccountIndex(
             uuid = uuid,
-            currency = currency.name,
+            currency = currency.id,
             context = id
         )
         val record = EconomyBalanceRecord(
@@ -161,7 +161,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
         )
         val index = EconomyAccountIndex(
             uuid = uuid,
-            currency = currency.name,
+            currency = currency.id,
             context = id
         )
         val record = EconomyBalanceRecord(
@@ -187,7 +187,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
         )
         val index = EconomyAccountIndex(
             uuid = uuid,
-            currency = currency.name,
+            currency = currency.id,
             context = id
         )
         val record = EconomyBalanceRecord(
