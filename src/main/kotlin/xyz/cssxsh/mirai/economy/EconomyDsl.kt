@@ -74,28 +74,3 @@ public fun Group.economy(): GroupEconomyContext {
 public fun <T> Group.economy(block: GroupEconomyContext.() -> T): T {
     return economy().use(block)
 }
-
-/**
- * 获取经济上下文
- * @see GroupEconomyContext
- * @see BotEconomyContext
- */
-@EconomyDsl
-@JvmName("getEconomy")
-public fun Contact.economy(): EconomyContext {
-    return when (this) {
-        is Group -> economy()
-        else -> bot.economy()
-    }
-}
-
-/**
- * 使用经济上下文
- * @see GroupEconomyContext
- * @see BotEconomyContext
- */
-@EconomyDsl
-@JvmName("useEconomy")
-public fun <T> Contact.economy(block: EconomyContext.() -> T): T {
-    return economy().use(block)
-}
