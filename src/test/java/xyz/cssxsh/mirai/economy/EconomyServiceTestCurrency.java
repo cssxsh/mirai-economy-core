@@ -3,7 +3,7 @@ package xyz.cssxsh.mirai.economy;
 import org.jetbrains.annotations.NotNull;
 import xyz.cssxsh.mirai.economy.service.EconomyCurrency;
 
-public class EconomyServiceTestCoin implements EconomyCurrency {
+public class EconomyServiceTestCurrency implements EconomyCurrency {
 
     @NotNull
     @Override
@@ -23,5 +23,5 @@ public class EconomyServiceTestCoin implements EconomyCurrency {
         return "EconomyUtilsTest";
     }
 
-    public static EconomyServiceTestCoin INSTATE = new EconomyServiceTestCoin();
+    public static EconomyServiceTestCurrency INSTATE = new EconomyServiceTestCurrency();
 }

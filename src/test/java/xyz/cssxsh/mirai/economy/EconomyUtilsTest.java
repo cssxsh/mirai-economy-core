@@ -15,19 +15,19 @@ public class EconomyUtilsTest extends SimpleListenerHost {
 
     @Test
     public void register() {
-        EconomyService.INSTANCE.register(EconomyServiceTestCoin.INSTATE, false);
+        EconomyService.INSTANCE.register(EconomyServiceTestCurrency.INSTATE, false);
     }
 
     @Test
     public void global() {
         EconomyAccount test1 = EconomyService.INSTANCE.account( "test1",  "test");
         try (EconomyContext context = EconomyUtils.getGlobalEconomy()) {
-            Double v2 = context.get(test1, EconomyServiceTestCoin.INSTATE);
-            context.set(test1, EconomyServiceTestCoin.INSTATE, 1000.0);
-            context.plusAssign(test1, EconomyServiceTestCoin.INSTATE, 100.0);
-            context.minusAssign(test1, EconomyServiceTestCoin.INSTATE, 10.0);
-            context.timesAssign(test1, EconomyServiceTestCoin.INSTATE, 10.0);
-            context.divAssign(test1, EconomyServiceTestCoin.INSTATE, 5.0);
+            Double v2 = context.get(test1, EconomyServiceTestCurrency.INSTATE);
+            context.set(test1, EconomyServiceTestCurrency.INSTATE, 1000.0);
+            context.plusAssign(test1, EconomyServiceTestCurrency.INSTATE, 100.0);
+            context.minusAssign(test1, EconomyServiceTestCurrency.INSTATE, 10.0);
+            context.timesAssign(test1, EconomyServiceTestCurrency.INSTATE, 10.0);
+            context.divAssign(test1, EconomyServiceTestCurrency.INSTATE, 5.0);
 
         } catch (Exception e) {
             e.getStackTrace();
