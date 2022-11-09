@@ -8,11 +8,11 @@ plugins {
 }
 
 group = "xyz.cssxsh.mirai"
-version = "1.0.0-dev"
+version = "1.0.0-M1"
 
 mavenCentralPublish {
     useCentralS01()
-    githubProject("cssxsh", "mirai-economy-core")
+    singleDevGithubProject("cssxsh", "mirai-economy-core")
     licenseFromGitHubProject("AGPL-3.0")
     workingDir = System.getenv("PUBLICATION_TEMP")?.let { file(it).resolve(projectName) }
         ?: buildDir.resolve("publishing-tmp")

@@ -10,11 +10,11 @@ internal object MiraiEconomyCorePlugin : KotlinPlugin(
     JvmPluginDescription(
         id = "xyz.cssxsh.mirai.plugin.mirai-economy-core",
         name = "mirai-economy-core",
-        version = "1.0.0-dev",
+        version = "1.0.0",
     ) {
         author("cssxsh")
 
-        dependsOn("xyz.cssxsh.mirai.plugin.mirai-hibernate-plugin", true)
+        dependsOn("xyz.cssxsh.mirai.plugin.mirai-hibernate-plugin", false)
     }
 ) {
     override fun onEnable() {
