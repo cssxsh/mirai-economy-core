@@ -50,13 +50,13 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
             currency = currency.name,
             context = id
         )
-        val record = session[EconomyGlobalRecord::class.java, index]
+        val record = session[EconomyBalanceRecord::class.java, index]
         return record?.balance ?: 0.0
     }
 
     override fun EconomyAccount.balance(): Map<EconomyCurrency, Double> {
-        val records = session.withCriteria<EconomyGlobalRecord> { criteria ->
-            val record = criteria.from<EconomyGlobalRecord>()
+        val records = session.withCriteria<EconomyBalanceRecord> { criteria ->
+            val record = criteria.from<EconomyBalanceRecord>()
             criteria.select(record)
                 .where(
                     equal(record.get<EconomyAccountIndex>("index").get<String>("uuid"), uuid)
@@ -86,7 +86,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
             currency = currency.name,
             context = id
         )
-        val record = EconomyGlobalRecord(
+        val record = EconomyBalanceRecord(
             index = index,
             balance = quantity
         )
@@ -112,7 +112,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
             currency = currency.name,
             context = id
         )
-        val record = EconomyGlobalRecord(
+        val record = EconomyBalanceRecord(
             index = index,
             balance = current + quantity
         )
@@ -138,7 +138,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
             currency = currency.name,
             context = id
         )
-        val record = EconomyGlobalRecord(
+        val record = EconomyBalanceRecord(
             index = index,
             balance = current - quantity
         )
@@ -164,7 +164,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
             currency = currency.name,
             context = id
         )
-        val record = EconomyGlobalRecord(
+        val record = EconomyBalanceRecord(
             index = index,
             balance = current * quantity
         )
@@ -190,7 +190,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
             currency = currency.name,
             context = id
         )
-        val record = EconomyGlobalRecord(
+        val record = EconomyBalanceRecord(
             index = index,
             balance = current / quantity
         )

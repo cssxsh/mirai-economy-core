@@ -6,7 +6,7 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "economy_balance_record")
 @kotlinx.serialization.Serializable
-internal class EconomyGlobalRecord(
+internal class EconomyBalanceRecord(
     @EmbeddedId
     val index: EconomyAccountIndex,
     @Column(name = "balance", nullable = false, updatable = true)
