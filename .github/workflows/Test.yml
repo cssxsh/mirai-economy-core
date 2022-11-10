@@ -48,6 +48,9 @@ jobs:
       - name: EconomyServicePostgreSqlTest
         run: ./gradlew test --tests "xyz.cssxsh.mirai.economy.EconomyServicePostgreSqlTest" --scan --info
 
+      - name: EconomyCurrencyTest
+        run: ./gradlew test --tests "xyz.cssxsh.mirai.economy.EconomyCurrencyTest" --scan --info
+
   macos:
     runs-on: macos-latest
     steps:
@@ -101,6 +104,9 @@ jobs:
       - name: EconomyServicePostgreSqlTest
         run: ./gradlew test --tests "xyz.cssxsh.mirai.economy.EconomyServicePostgreSqlTest" --scan --info
 
+      - name: EconomyCurrencyTest
+        run: ./gradlew test --tests "xyz.cssxsh.mirai.economy.EconomyCurrencyTest" --scan --info
+
   linux:
     runs-on: ubuntu-latest
     steps:
@@ -142,3 +148,6 @@ jobs:
 
       - name: EconomyServicePostgreSqlTest
         run: ./gradlew test --tests "xyz.cssxsh.mirai.economy.EconomyServicePostgreSqlTest" --scan --info
+
+      - name: EconomyCurrencyTest
+        run: ./gradlew test --tests "xyz.cssxsh.mirai.economy.EconomyCurrencyTest" --scan --info

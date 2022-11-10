@@ -34,6 +34,13 @@ dependencies {
     testImplementation("org.slf4j:slf4j-simple:2.0.3")
     testImplementation("net.mamoe:mirai-logging-slf4j:2.13.0")
     testImplementation("xyz.cssxsh.mirai:mirai-hibernate-plugin:2.5.0")
+    // lua
+    testImplementation("org.luaj:luaj-jse:3.0.1")
+    // js
+    testImplementation("org.graalvm.js:js:22.2.0")
+    testImplementation("org.graalvm.js:js-scriptengine:22.2.0")
+    // python
+    testImplementation("org.python:jython-standalone:2.7.3")
 }
 
 kotlin {

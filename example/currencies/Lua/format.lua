@@ -1,0 +1,1 @@
+return amount .. " 枚 " .. name

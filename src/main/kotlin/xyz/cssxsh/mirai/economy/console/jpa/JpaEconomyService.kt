@@ -7,12 +7,14 @@ import net.mamoe.mirai.contact.*
 import net.mamoe.mirai.utils.*
 import org.hibernate.*
 import xyz.cssxsh.mirai.economy.console.*
+import xyz.cssxsh.mirai.economy.console.currency.*
 import xyz.cssxsh.mirai.economy.console.entity.*
 import xyz.cssxsh.mirai.economy.service.*
 import xyz.cssxsh.mirai.hibernate.*
 import java.nio.file.*
 import java.util.*
 import kotlin.coroutines.*
+import kotlin.io.path.*
 import kotlin.reflect.*
 
 @PublishedApi
@@ -46,6 +48,21 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
         }
         this.factory = MiraiHibernateConfiguration(loader = MiraiHibernateLoader.Impl(files))
             .buildSessionFactory()
+
+        val currencies = folder.resolve("currencies")
+        currencies.mkdirs()
+        for (entry in currencies.listDirectoryEntries()) {
+            val currency = try {
+                when {
+                    entry.isDirectory() -> MiraiEconomyCurrency.fromFolder(folder = entry)
+                    entry.isFile -> MiraiEconomyCurrency.fromZip(pack = entry)
+                    else -> continue
+                }
+            } catch (_: NoSuchElementException) {
+                continue
+            }
+            register(currency = currency, override = true)
+        }
     }
 
     @Synchronized

@@ -31,7 +31,7 @@ internal abstract class EconomyServiceTest {
         Assertions.assertThrows(EconomyEventCancelledException::class.java) {
             EconomyService.register(EconomyServiceLaoLittleCoin)
         }
-        Assertions.assertIterableEquals(EconomyService.basket.values, listOf(EconomyServiceTestCoin))
+        Assertions.assertFalse(EconomyServiceLaoLittleCoin.id in EconomyService.basket)
     }
 
     @Test
