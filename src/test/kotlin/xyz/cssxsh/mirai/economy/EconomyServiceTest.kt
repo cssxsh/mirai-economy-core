@@ -22,6 +22,9 @@ internal abstract class EconomyServiceTest {
     @AfterAll
     fun close() {
         EconomyService.close()
+        /**
+         * 建议看看 事件相关用法 → [EconomyServiceTestListenerHost]
+         */
         EconomyServiceTestListenerHost.cancel()
     }
 
