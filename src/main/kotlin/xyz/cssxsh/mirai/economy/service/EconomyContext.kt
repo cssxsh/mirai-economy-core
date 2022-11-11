@@ -113,6 +113,7 @@ public interface EconomyAction {
 
     /**
      * 获取各个账户的余额
+     * @since 1.0.1
      */
     @EconomyDsl
     @Throws(UnsupportedOperationException::class)

@@ -82,7 +82,7 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
         override fun getValue(thisRef: EconomyContext, property: KProperty<*>): EconomyCurrency {
             return factory.fromSession { session ->
                 val record = session[EconomyHardRecord::class.java, thisRef.id]
-                    ?: throw UnsupportedOperationException("${thisRef.id} 未设置硬通货币")
+                    ?: return@fromSession MiraiCoin
                 basket[record.currency]
                     ?: throw UnsupportedOperationException("找不到货币 ${record.currency}")
             }
