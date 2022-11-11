@@ -2,6 +2,7 @@ package xyz.cssxsh.mirai.economy.console.jpa
 
 import kotlinx.coroutines.*
 import net.mamoe.mirai.*
+import net.mamoe.mirai.console.permission.*
 import net.mamoe.mirai.console.plugin.*
 import net.mamoe.mirai.contact.*
 import net.mamoe.mirai.utils.*
@@ -143,14 +144,38 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
     }
 
     override fun account(uuid: String, description: String?): EconomyAccount {
-        return JpaCustomEconomyAccount(
-            record = factory.fromTransaction { session ->
-                val record = EconomyAccountRecord.fromInfo(uuid = uuid, description = description)
-                session.merge(record)
-                session.flush()
-                record
+        val record = factory.fromTransaction { session ->
+            val record = EconomyAccountRecord.fromInfo(uuid = uuid, description = description)
+            session.merge(record)
+            session.flush()
+            record
+        }
+        val permitteeId = try {
+            AbstractPermitteeId.parseFromString(record.uuid)
+        } catch (_: IllegalStateException) {
+            null
+        }
+        when (permitteeId) {
+            is AbstractPermitteeId.ExactUser -> {
+                for (bot in Bot.instances) {
+                    val friend = bot.friends[permitteeId.id]
+                    if (friend != null) return JpaUserEconomyAccount(record = record, user = friend)
+                    for (group in bot.groups) {
+                        val member = group.members[permitteeId.id]
+                        if (member != null) return JpaUserEconomyAccount(record = record, user = member)
+                    }
+                }
             }
-        )
+            is AbstractPermitteeId.ExactGroup -> {
+                for (bot in Bot.instances) {
+                    val group = bot.groups[permitteeId.groupId] ?: continue
+                    return JpaGroupEconomyAccount(record = record, group = group)
+                }
+            }
+            else -> Unit
+        }
+
+        return JpaCustomEconomyAccount(record = record)
     }
 
     // endregion

@@ -8,7 +8,7 @@ import xyz.cssxsh.mirai.economy.service.*
 internal class JpaGroupEconomyAccount(
     private val record: EconomyAccountRecord,
     override val group: Group
-) : GroupEconomyAccount {
+) : GroupEconomyAccount, AbstractEconomyAccount() {
     override val uuid: String get() = record.uuid
     override val description: String get() = record.description
 }

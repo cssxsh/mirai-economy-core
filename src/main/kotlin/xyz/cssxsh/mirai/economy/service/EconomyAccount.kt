@@ -49,6 +49,22 @@ public interface CustomEconomyAccount : EconomyAccount {
 }
 
 /**
+ * 经济账户 抽象类
+ */
+public abstract class AbstractEconomyAccount {
+    /**
+     * 账户ID
+     */
+    public abstract val uuid: String
+
+    override fun toString(): String = uuid
+
+    override fun equals(other: Any?): Boolean = uuid == (other as? EconomyAccount)?.uuid
+
+    override fun hashCode(): Int = uuid.hashCode()
+}
+
+/**
  * 账号管理器，用于管理账户信息
  */
 public interface EconomyAccountManager {

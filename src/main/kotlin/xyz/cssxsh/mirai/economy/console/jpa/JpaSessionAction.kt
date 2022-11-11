@@ -219,7 +219,8 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
             for (record in records) {
                 val account = try {
                     service.account(uuid = record.index.uuid)
-                } catch (_: NoSuchElementException) {
+                } catch (cause: NoSuchElementException) {
+                    logger.warning({ "找不到用户 ${record.index.uuid}" }, cause)
                     continue
                 }
                 put(account, record.balance)

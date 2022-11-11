@@ -47,7 +47,6 @@ internal abstract class EconomyServiceTest {
             Assertions.assertEquals(0.0, test2[EconomyServiceTestCoin])
 
             test1[EconomyServiceTestCoin] = 1000.0
-            test2[EconomyServiceTestCoin] = 100.0
             Assertions.assertEquals(1000.0, test1[EconomyServiceTestCoin])
             test1 += (EconomyServiceTestCoin to 100.0)
             Assertions.assertEquals(1100.0, test1[EconomyServiceTestCoin])
@@ -60,7 +59,6 @@ internal abstract class EconomyServiceTest {
 
             val balance = EconomyServiceTestCoin.balance()
             Assertions.assertEquals(2180.0, balance[test1])
-            Assertions.assertEquals(100.0, balance[test2])
         }
     }
 
