@@ -30,16 +30,17 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
     // endregion
 
     @Synchronized
-    open fun <T> transaction(block: Session.() -> T) {
+    open fun <T> transaction(block: (Session) -> T) {
         val transaction = session.beginTransaction()
         try {
             block.invoke(session)
             transaction.commit()
         } catch (exception: RollbackException) {
+            logger.error({ "事务提交异常" }, exception)
             try {
                 transaction.rollback()
             } catch (cause: PersistenceException) {
-                logger.debug({ "回滚异常" }, cause)
+                logger.warning({ "回滚异常" }, cause)
             }
         }
     }
@@ -91,7 +92,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
             balance = quantity
         )
         service.broadcast(event) {
-            transaction {
+            transaction { session ->
                 session.merge(record)
             }
         }
@@ -117,7 +118,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
             balance = current + quantity
         )
         service.broadcast(event) {
-            transaction {
+            transaction { session ->
                 session.merge(record)
             }
         }
@@ -143,7 +144,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
             balance = current - quantity
         )
         service.broadcast(event) {
-            transaction {
+            transaction { session ->
                 session.merge(record)
             }
         }
@@ -169,7 +170,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
             balance = current * quantity
         )
         service.broadcast(event) {
-            transaction {
+            transaction { session ->
                 session.merge(record)
             }
         }
@@ -195,7 +196,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
             balance = current / quantity
         )
         service.broadcast(event) {
-            transaction {
+            transaction { session ->
                 session.merge(record)
             }
         }
