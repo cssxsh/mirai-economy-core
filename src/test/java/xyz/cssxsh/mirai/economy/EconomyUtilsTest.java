@@ -11,6 +11,8 @@ import xyz.cssxsh.mirai.economy.event.EconomyServiceInitEvent;
 import xyz.cssxsh.mirai.economy.service.EconomyAccount;
 import xyz.cssxsh.mirai.economy.service.EconomyContext;
 
+import java.util.Map;
+
 public class EconomyUtilsTest extends SimpleListenerHost {
 
     @Test
@@ -29,6 +31,7 @@ public class EconomyUtilsTest extends SimpleListenerHost {
             context.timesAssign(test1, EconomyServiceTestCurrency.INSTATE, 10.0);
             context.divAssign(test1, EconomyServiceTestCurrency.INSTATE, 5.0);
 
+            Map<EconomyAccount, Double> balance = context.balance(EconomyServiceTestCurrency.INSTATE);
         } catch (Exception e) {
             e.getStackTrace();
         }

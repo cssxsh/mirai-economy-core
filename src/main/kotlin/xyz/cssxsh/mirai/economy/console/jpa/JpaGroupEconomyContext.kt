@@ -16,4 +16,6 @@ internal class JpaGroupEconomyContext(
     override val logger: MiraiLogger = MiraiLogger.Factory.create(this::class, id)
 
     override var hard: EconomyCurrency by service.hard
+
+    override val context: String get() = id
 }

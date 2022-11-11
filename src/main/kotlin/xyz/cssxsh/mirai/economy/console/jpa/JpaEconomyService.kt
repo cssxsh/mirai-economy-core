@@ -30,7 +30,7 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
         } catch (_: UninitializedPropertyAccessException) {
             CoroutineExceptionHandler { _, throwable ->
                 if (throwable.unwrapCancellationException() !is CancellationException) {
-                    logger.error("Exception in coroutine JpaEconomyService", throwable)
+                    logger.error({ "Exception in coroutine JpaEconomyService" }, throwable)
                 }
             }
         } + CoroutineName(id)

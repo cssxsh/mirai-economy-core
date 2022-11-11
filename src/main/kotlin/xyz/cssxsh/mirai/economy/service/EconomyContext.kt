@@ -110,6 +110,13 @@ public interface EconomyAction {
     @EconomyDsl
     @Throws(UnsupportedOperationException::class)
     public fun EconomyAccount.divAssign(currency: EconomyCurrency, quantity: Double)
+
+    /**
+     * 获取各个账户的余额
+     */
+    @EconomyDsl
+    @Throws(UnsupportedOperationException::class)
+    public fun EconomyCurrency.balance(): Map<EconomyAccount, Double>
 }
 
 /**

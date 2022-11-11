@@ -16,7 +16,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
 
     abstract val logger: MiraiLogger
     abstract val session: Session
-    abstract val id: String
+    protected abstract val context: String
     abstract val service: JpaEconomyService
 
     override fun flush() {
@@ -49,7 +49,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
         val index = EconomyAccountIndex(
             uuid = uuid,
             currency = currency.id,
-            context = id
+            context = context
         )
         val record = session[EconomyBalanceRecord::class.java, index]
         return record?.balance ?: 0.0
@@ -58,9 +58,11 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
     override fun EconomyAccount.balance(): Map<EconomyCurrency, Double> {
         val records = session.withCriteria<EconomyBalanceRecord> { criteria ->
             val record = criteria.from<EconomyBalanceRecord>()
+            val index = record.get<EconomyAccountIndex>("index")
             criteria.select(record)
                 .where(
-                    equal(record.get<EconomyAccountIndex>("index").get<String>("uuid"), uuid)
+                    equal(index.get<String>("uuid"), uuid),
+                    equal(index.get<String>("context"), context)
                 )
         }.list()
 
@@ -85,7 +87,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
         val index = EconomyAccountIndex(
             uuid = uuid,
             currency = currency.id,
-            context = id
+            context = context
         )
         val record = EconomyBalanceRecord(
             index = index,
@@ -111,7 +113,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
         val index = EconomyAccountIndex(
             uuid = uuid,
             currency = currency.id,
-            context = id
+            context = context
         )
         val record = EconomyBalanceRecord(
             index = index,
@@ -137,7 +139,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
         val index = EconomyAccountIndex(
             uuid = uuid,
             currency = currency.id,
-            context = id
+            context = context
         )
         val record = EconomyBalanceRecord(
             index = index,
@@ -163,7 +165,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
         val index = EconomyAccountIndex(
             uuid = uuid,
             currency = currency.id,
-            context = id
+            context = context
         )
         val record = EconomyBalanceRecord(
             index = index,
@@ -189,7 +191,7 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
         val index = EconomyAccountIndex(
             uuid = uuid,
             currency = currency.id,
-            context = id
+            context = context
         )
         val record = EconomyBalanceRecord(
             index = index,
@@ -198,6 +200,29 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
         service.broadcast(event) {
             transaction { session ->
                 session.merge(record)
+            }
+        }
+    }
+
+    override fun EconomyCurrency.balance(): Map<EconomyAccount, Double> {
+        val records = session.withCriteria<EconomyBalanceRecord> { criteria ->
+            val record = criteria.from<EconomyBalanceRecord>()
+            val index = record.get<EconomyAccountIndex>("index")
+            criteria.select(record)
+                .where(
+                    equal(index.get<String>("currency"), id),
+                    equal(index.get<String>("context"), context)
+                )
+        }.list()
+
+        return buildMap {
+            for (record in records) {
+                val account = try {
+                    service.account(uuid = record.index.uuid)
+                } catch (_: NoSuchElementException) {
+                    continue
+                }
+                put(account, record.balance)
             }
         }
     }
