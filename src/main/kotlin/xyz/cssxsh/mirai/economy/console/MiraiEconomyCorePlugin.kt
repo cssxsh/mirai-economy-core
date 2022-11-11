@@ -5,7 +5,6 @@ import net.mamoe.mirai.console.extension.*
 import net.mamoe.mirai.console.plugin.jvm.*
 import net.mamoe.mirai.event.*
 import xyz.cssxsh.mirai.economy.*
-import xyz.cssxsh.mirai.script.*
 import javax.script.*
 
 @PublishedApi
@@ -23,10 +22,11 @@ internal object MiraiEconomyCorePlugin : KotlinPlugin(
 ) {
 
     override fun PluginComponentStorage.onLoad() {
-        try {
-            MiraiScriptPlugin
-        } catch (_:NoClassDefFoundError) {
-            //
+        if (dataFolder.walk().any { it.name.startsWith(".js") }) {
+            System.setProperty("xyz.cssxsh.mirai.script.js", "true")
+        }
+        if (dataFolder.walk().any { it.name.startsWith(".py") }) {
+            System.setProperty("xyz.cssxsh.mirai.script.python", "true")
         }
     }
 

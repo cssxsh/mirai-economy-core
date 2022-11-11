@@ -6,8 +6,10 @@ import java.util.zip.ZipFile
 import javax.script.*
 import kotlin.io.path.*
 
-@PublishedApi
-internal class MiraiEconomyCurrency(
+/**
+ * 自定义的脚本货币
+ */
+public class MiraiEconomyCurrency(
     override val id: String,
     override val name: String,
     override val description: String,
@@ -23,22 +25,24 @@ internal class MiraiEconomyCurrency(
             bindings["description"] = description
             bindings["amount"] = amount
             engine.eval(script, bindings).toString()
-        } else{
+        } else {
             script.format(amount, id)
         }
     }
 
-    companion object {
-        fun fromFolder(folder: Path): MiraiEconomyCurrency {
+    public companion object {
+        @JvmStatic
+        public fun fromFolder(folder: Path): MiraiEconomyCurrency {
             val id = folder.name
             val name = folder.resolve("name.txt").readText()
             val description = folder.resolve("description.txt").readText()
             val format = folder.listDirectoryEntries("format.*").first()
 
             val manager = ScriptEngineManager(MiraiEconomyCurrency::class.java.classLoader)
-            val engine = when(val extension = format.extension) {
+            val engine = when (val extension = format.extension) {
                 "txt" -> null
-                else -> manager.getEngineByExtension(extension) ?: throw NoSuchElementException("ScriptEngine: $extension")
+                else -> manager.getEngineByExtension(extension)
+                    ?: throw NoSuchElementException("ScriptEngine: $extension")
             }
 
             return MiraiEconomyCurrency(
@@ -50,7 +54,8 @@ internal class MiraiEconomyCurrency(
             )
         }
 
-        fun fromZip(pack: Path): MiraiEconomyCurrency {
+        @JvmStatic
+        public fun fromZip(pack: Path): MiraiEconomyCurrency {
             val id = pack.name.substringBefore(".")
             val name: String
             val description: String
@@ -66,9 +71,10 @@ internal class MiraiEconomyCurrency(
                 }
                 val format = zip.entries().asIterator().asSequence().first { it.name.startsWith("format.") }
                 val manager = ScriptEngineManager(MiraiEconomyCurrency::class.java.classLoader)
-                engine = when(val extension = format.name.substringAfter(".")) {
+                engine = when (val extension = format.name.substringAfter(".")) {
                     "txt" -> null
-                    else -> manager.getEngineByExtension(extension) ?: throw NoSuchElementException("ScriptEngine: $extension")
+                    else -> manager.getEngineByExtension(extension)
+                        ?: throw NoSuchElementException("ScriptEngine: $extension")
                 }
                 script = zip.getInputStream(format).reader().use { reader ->
                     reader.readText()
