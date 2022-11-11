@@ -31,6 +31,9 @@ public class EconomyScriptCurrency(
     }
 
     public companion object {
+        /**
+         * 从文件夹加载脚本货币
+         */
         @JvmStatic
         public fun fromFolder(folder: Path): EconomyScriptCurrency {
             val id = folder.name
@@ -54,6 +57,9 @@ public class EconomyScriptCurrency(
             )
         }
 
+        /**
+         * 从压缩包加载脚本货币
+         */
         @JvmStatic
         public fun fromZip(pack: Path): EconomyScriptCurrency {
             val id = pack.name.substringBefore(".")
