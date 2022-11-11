@@ -1,7 +1,7 @@
 package xyz.cssxsh.mirai.economy
 
 import org.junit.jupiter.api.*
-import xyz.cssxsh.mirai.economy.console.currency.*
+import xyz.cssxsh.mirai.economy.script.*
 import java.nio.file.Path
 import javax.script.*
 
@@ -20,7 +20,7 @@ internal class EconomyCurrencyTest {
 
     @Test
     fun lua() {
-        val currency = MiraiEconomyCurrency.fromFolder(folder = data.resolve("Lua"))
+        val currency = EconomyScriptCurrency.fromFolder(folder = data.resolve("Lua"))
         Assertions.assertEquals("100 枚 Lua", currency.format(amount = 100.0))
     }
 
@@ -33,7 +33,7 @@ internal class EconomyCurrencyTest {
 
     @Test
     fun js() {
-        val currency = MiraiEconomyCurrency.fromFolder(folder = data.resolve("ECMAScript"))
+        val currency = EconomyScriptCurrency.fromFolder(folder = data.resolve("ECMAScript"))
         Assertions.assertEquals("100 块 ECMAScript", currency.format(amount = 100.0))
     }
 
@@ -41,13 +41,13 @@ internal class EconomyCurrencyTest {
 
     @Test
     fun python() {
-        val currency = MiraiEconomyCurrency.fromFolder(folder = data.resolve("Python"))
+        val currency = EconomyScriptCurrency.fromFolder(folder = data.resolve("Python"))
         Assertions.assertEquals("100.0 个 Python", currency.format(amount = 100.0))
     }
 
     @Test
     fun txt() {
-        val currency = MiraiEconomyCurrency.fromFolder(folder = data.resolve("Him188"))
+        val currency = EconomyScriptCurrency.fromFolder(folder = data.resolve("Him188"))
         Assertions.assertEquals("114514 位 Him188 鸽子", currency.format(amount = 114514.0))
     }
 }

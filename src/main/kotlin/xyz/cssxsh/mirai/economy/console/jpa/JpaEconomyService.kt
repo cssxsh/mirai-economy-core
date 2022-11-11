@@ -7,8 +7,8 @@ import net.mamoe.mirai.contact.*
 import net.mamoe.mirai.utils.*
 import org.hibernate.*
 import xyz.cssxsh.mirai.economy.console.*
-import xyz.cssxsh.mirai.economy.console.currency.*
 import xyz.cssxsh.mirai.economy.console.entity.*
+import xyz.cssxsh.mirai.economy.script.*
 import xyz.cssxsh.mirai.economy.service.*
 import xyz.cssxsh.mirai.hibernate.*
 import java.nio.file.*
@@ -54,8 +54,8 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
         for (entry in currencies.listDirectoryEntries()) {
             val currency = try {
                 when {
-                    entry.isDirectory() -> MiraiEconomyCurrency.fromFolder(folder = entry)
-                    entry.isFile -> MiraiEconomyCurrency.fromZip(pack = entry)
+                    entry.isDirectory() -> EconomyScriptCurrency.fromFolder(folder = entry)
+                    entry.isFile -> EconomyScriptCurrency.fromZip(pack = entry)
                     else -> continue
                 }
             } catch (_: NoSuchElementException) {

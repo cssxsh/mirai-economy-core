@@ -1,15 +1,15 @@
-package xyz.cssxsh.mirai.economy.console.currency
+package xyz.cssxsh.mirai.economy.script
 
 import xyz.cssxsh.mirai.economy.service.*
 import java.nio.file.*
-import java.util.zip.ZipFile
+import java.util.zip.*
 import javax.script.*
 import kotlin.io.path.*
 
 /**
  * 自定义的脚本货币
  */
-public class MiraiEconomyCurrency(
+public class EconomyScriptCurrency(
     override val id: String,
     override val name: String,
     override val description: String,
@@ -32,20 +32,20 @@ public class MiraiEconomyCurrency(
 
     public companion object {
         @JvmStatic
-        public fun fromFolder(folder: Path): MiraiEconomyCurrency {
+        public fun fromFolder(folder: Path): EconomyScriptCurrency {
             val id = folder.name
             val name = folder.resolve("name.txt").readText()
             val description = folder.resolve("description.txt").readText()
             val format = folder.listDirectoryEntries("format.*").first()
 
-            val manager = ScriptEngineManager(MiraiEconomyCurrency::class.java.classLoader)
+            val manager = ScriptEngineManager(EconomyScriptCurrency::class.java.classLoader)
             val engine = when (val extension = format.extension) {
                 "txt" -> null
                 else -> manager.getEngineByExtension(extension)
                     ?: throw NoSuchElementException("ScriptEngine: $extension")
             }
 
-            return MiraiEconomyCurrency(
+            return EconomyScriptCurrency(
                 id = id,
                 name = name,
                 description = description,
@@ -55,7 +55,7 @@ public class MiraiEconomyCurrency(
         }
 
         @JvmStatic
-        public fun fromZip(pack: Path): MiraiEconomyCurrency {
+        public fun fromZip(pack: Path): EconomyScriptCurrency {
             val id = pack.name.substringBefore(".")
             val name: String
             val description: String
@@ -70,7 +70,7 @@ public class MiraiEconomyCurrency(
                     reader.readText()
                 }
                 val format = zip.entries().asIterator().asSequence().first { it.name.startsWith("format.") }
-                val manager = ScriptEngineManager(MiraiEconomyCurrency::class.java.classLoader)
+                val manager = ScriptEngineManager(EconomyScriptCurrency::class.java.classLoader)
                 engine = when (val extension = format.name.substringAfter(".")) {
                     "txt" -> null
                     else -> manager.getEngineByExtension(extension)
@@ -81,7 +81,7 @@ public class MiraiEconomyCurrency(
                 }
             }
 
-            return MiraiEconomyCurrency(
+            return EconomyScriptCurrency(
                 id = id,
                 name = name,
                 description = description,
