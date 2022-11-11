@@ -20,7 +20,7 @@ public class EconomyUtilsTest extends SimpleListenerHost {
 
     @Test
     public void global() {
-        EconomyAccount test1 = EconomyService.INSTANCE.account( "test1",  "test");
+        EconomyAccount test1 = EconomyService.INSTANCE.account("test1", "test");
         try (EconomyContext context = EconomyUtils.getGlobalEconomy()) {
             Double v2 = context.get(test1, EconomyServiceTestCurrency.INSTATE);
             context.set(test1, EconomyServiceTestCurrency.INSTATE, 1000.0);

@@ -6,7 +6,7 @@ import kotlin.io.path.writeText
 internal class EconomyServicePostgreSqlTest : EconomyServiceTest() {
     @BeforeAll
     fun reload() {
-        config.resolve( "hibernate.properties").writeText(
+        config.resolve("hibernate.properties").writeText(
             """
                 hibernate.connection.url=jdbc:postgresql://localhost:5432/mirai?autoReconnect=true
                 hibernate.connection.username=postgres
