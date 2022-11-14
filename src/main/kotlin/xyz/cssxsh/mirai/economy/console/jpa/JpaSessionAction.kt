@@ -74,132 +74,127 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
         }
     }
 
-    override fun EconomyAccount.set(currency: EconomyCurrency, quantity: Double) {
-        val current = get(currency)
+    override fun EconomyAccount.set(currency: EconomyCurrency, quantity: Double) = synchronized(currency) {
+        val index = EconomyAccountIndex(
+            uuid = uuid,
+            currency = currency.id,
+            context = context
+        )
+        val record = session[EconomyBalanceRecord::class.java, index] ?: EconomyBalanceRecord(
+            index = index,
+            balance = 0.0
+        )
         val event = EconomyBalanceChangeEvent(
             account = this,
             service = service,
             currency = currency,
-            current = current,
+            current = record.balance,
             change = quantity,
             mode = EconomyBalanceChangeMode.SET
         )
+        service.broadcast(event) {
+            transaction { session ->
+                session.merge(record.copy(balance = quantity))
+            }
+        }
+    }
+
+    override fun EconomyAccount.plusAssign(currency: EconomyCurrency, quantity: Double) = synchronized(currency) {
         val index = EconomyAccountIndex(
             uuid = uuid,
             currency = currency.id,
             context = context
         )
-        val record = EconomyBalanceRecord(
+        val record = session[EconomyBalanceRecord::class.java, index] ?: EconomyBalanceRecord(
             index = index,
-            balance = quantity
+            balance = 0.0
         )
-        service.broadcast(event) {
-            transaction { session ->
-                session.merge(record)
-            }
-        }
-    }
-
-    override fun EconomyAccount.plusAssign(currency: EconomyCurrency, quantity: Double) {
-        val current = get(currency)
         val event = EconomyBalanceChangeEvent(
             account = this,
             service = service,
             currency = currency,
-            current = current,
+            current = record.balance,
             change = quantity,
             mode = EconomyBalanceChangeMode.PLUS
         )
+        service.broadcast(event) {
+            transaction { session ->
+                session.merge(record.copy(balance = current + change))
+            }
+        }
+    }
+
+    override fun EconomyAccount.minusAssign(currency: EconomyCurrency, quantity: Double) = synchronized(currency) {
         val index = EconomyAccountIndex(
             uuid = uuid,
             currency = currency.id,
             context = context
         )
-        val record = EconomyBalanceRecord(
+        val record = session[EconomyBalanceRecord::class.java, index] ?: EconomyBalanceRecord(
             index = index,
-            balance = current + quantity
+            balance = 0.0
         )
-        service.broadcast(event) {
-            transaction { session ->
-                session.merge(record)
-            }
-        }
-    }
-
-    override fun EconomyAccount.minusAssign(currency: EconomyCurrency, quantity: Double) {
-        val current = get(currency)
         val event = EconomyBalanceChangeEvent(
             account = this,
             service = service,
             currency = currency,
-            current = current,
+            current = record.balance,
             change = quantity,
             mode = EconomyBalanceChangeMode.MINUS
         )
+        service.broadcast(event) {
+            transaction { session ->
+                session.merge(record.copy(balance = current - quantity))
+            }
+        }
+    }
+
+    override fun EconomyAccount.timesAssign(currency: EconomyCurrency, quantity: Double) = synchronized(currency) {
         val index = EconomyAccountIndex(
             uuid = uuid,
             currency = currency.id,
             context = context
         )
-        val record = EconomyBalanceRecord(
+        val record = session[EconomyBalanceRecord::class.java, index] ?: EconomyBalanceRecord(
             index = index,
-            balance = current - quantity
+            balance = 0.0
         )
-        service.broadcast(event) {
-            transaction { session ->
-                session.merge(record)
-            }
-        }
-    }
-
-    override fun EconomyAccount.timesAssign(currency: EconomyCurrency, quantity: Double) {
-        val current = get(currency)
         val event = EconomyBalanceChangeEvent(
             account = this,
             service = service,
             currency = currency,
-            current = current,
+            current = record.balance,
             change = quantity,
             mode = EconomyBalanceChangeMode.TIMES
         )
-        val index = EconomyAccountIndex(
-            uuid = uuid,
-            currency = currency.id,
-            context = context
-        )
-        val record = EconomyBalanceRecord(
-            index = index,
-            balance = current * quantity
-        )
         service.broadcast(event) {
             transaction { session ->
-                session.merge(record)
+                session.merge(record.copy(balance = current * change))
             }
         }
     }
 
-    override fun EconomyAccount.divAssign(currency: EconomyCurrency, quantity: Double) {
-        val current = get(currency)
-        val event = EconomyBalanceChangeEvent(
-            account = this,
-            service = service,
-            currency = currency,
-            current = current,
-            change = quantity,
-            mode = EconomyBalanceChangeMode.DIV
-        )
+    override fun EconomyAccount.divAssign(currency: EconomyCurrency, quantity: Double) = synchronized(currency) {
         val index = EconomyAccountIndex(
             uuid = uuid,
             currency = currency.id,
             context = context
         )
-        val record = EconomyBalanceRecord(
+        val record = session[EconomyBalanceRecord::class.java, index] ?: EconomyBalanceRecord(
             index = index,
-            balance = current / quantity
+            balance = 0.0
+        )
+        val event = EconomyBalanceChangeEvent(
+            account = this,
+            service = service,
+            currency = currency,
+            current = record.balance,
+            change = quantity,
+            mode = EconomyBalanceChangeMode.DIV
         )
         service.broadcast(event) {
             transaction { session ->
-                session.merge(record)
+                session.merge(record.copy(balance = current / change))
             }
         }
     }

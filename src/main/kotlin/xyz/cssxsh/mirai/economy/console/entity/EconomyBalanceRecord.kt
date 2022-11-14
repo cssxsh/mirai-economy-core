@@ -6,11 +6,12 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "economy_balance_record")
 @kotlinx.serialization.Serializable
-internal class EconomyBalanceRecord(
+internal data class EconomyBalanceRecord(
     @EmbeddedId
     val index: EconomyAccountIndex,
     @Column(name = "balance", nullable = false, updatable = true)
-    val balance: Double,
+    val balance: Double
+) : java.io.Serializable {
     @Column(name = "latest", nullable = false, updatable = true)
     val latest: Long = System.currentTimeMillis()
-) : java.io.Serializable
+}
