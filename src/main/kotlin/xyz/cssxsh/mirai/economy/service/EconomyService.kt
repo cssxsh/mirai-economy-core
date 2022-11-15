@@ -37,11 +37,13 @@ public interface IEconomyService : EconomyContextManager, EconomyAccountManager,
         /**
          * 指定加载的服务
          */
+        @PublishedApi
         internal const val NAME_KEY: String = "xyz.cssxsh.mirai.economy.service"
 
         /**
          * [IEconomyService] 加载器
          */
+        @PublishedApi
         internal val loaders: MutableList<ServiceLoader<IEconomyService>> = ArrayList()
 
         init {

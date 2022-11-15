@@ -29,7 +29,6 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
 
     // endregion
 
-    @Synchronized
     open fun <T> transaction(block: (Session) -> T) {
         val transaction = session.beginTransaction()
         try {

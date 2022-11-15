@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "xyz.cssxsh.mirai"
-version = "1.0.1"
+version = "1.0.2"
 
 mavenCentralPublish {
     useCentralS01()
@@ -28,7 +28,7 @@ repositories {
 dependencies {
     compileOnly("net.mamoe:mirai-core:2.13.0")
     compileOnly("net.mamoe:mirai-core-utils:2.13.0")
-    compileOnly("xyz.cssxsh.mirai:mirai-script-plugin:1.0.0")
+    compileOnly("xyz.cssxsh.mirai:mirai-script-plugin:1.0.2")
     compileOnly("xyz.cssxsh.mirai:mirai-hibernate-plugin:2.5.0")
     compileOnly("com.google.protobuf:protobuf-java:3.21.9")
     testImplementation(kotlin("test"))
