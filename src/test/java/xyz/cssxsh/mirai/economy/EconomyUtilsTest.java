@@ -1,5 +1,6 @@
 package xyz.cssxsh.mirai.economy;
 
+import kotlin.Unit;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.BotEvent;
@@ -10,6 +11,7 @@ import xyz.cssxsh.mirai.economy.event.EconomyCurrencyRegisteredEvent;
 import xyz.cssxsh.mirai.economy.event.EconomyServiceInitEvent;
 import xyz.cssxsh.mirai.economy.service.EconomyAccount;
 import xyz.cssxsh.mirai.economy.service.EconomyContext;
+import xyz.cssxsh.mirai.economy.service.EconomyTransaction;
 
 import java.util.Map;
 
@@ -32,6 +34,11 @@ public class EconomyUtilsTest extends SimpleListenerHost {
             context.divAssign(test1, EconomyServiceTestCurrency.INSTATE, 5.0);
 
             Map<EconomyAccount, Double> balance = context.balance(EconomyServiceTestCurrency.INSTATE);
+
+            context.transaction(EconomyServiceTestCurrency.INSTATE, (EconomyTransaction transaction) -> {
+                transaction.put(test1, 0);
+                return Unit.INSTANCE;
+            });
         } catch (Exception e) {
             e.getStackTrace();
         }

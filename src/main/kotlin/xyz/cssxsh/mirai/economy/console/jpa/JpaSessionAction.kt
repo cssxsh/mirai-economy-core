@@ -221,4 +221,33 @@ internal abstract class JpaSessionAction : Flushable, AutoCloseable, EconomyActi
             }
         }
     }
+
+    override fun EconomyCurrency.transaction(block: EconomyTransaction.() -> Unit) = synchronized(this@transaction) {
+        val transaction = EconomyTransaction(
+            context = this@JpaSessionAction,
+            currency = this,
+            balance = java.util.concurrent.ConcurrentHashMap(this.balance())
+        )
+        block.invoke(transaction)
+        val event = EconomyCurrencyTransactionEvent(
+            service = service,
+            transaction = transaction
+        )
+        service.broadcast(event) {
+            transaction { session ->
+                for ((account, balance) in transaction) {
+                    val index = EconomyAccountIndex(
+                        uuid = account.uuid,
+                        currency = currency.id,
+                        context = context
+                    )
+                    val record = EconomyBalanceRecord(
+                        index = index,
+                        balance = balance
+                    )
+                    session.merge(record)
+                }
+            }
+        }
+    }
 }

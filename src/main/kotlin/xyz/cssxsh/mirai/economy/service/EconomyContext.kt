@@ -118,6 +118,14 @@ public interface EconomyAction {
     @EconomyDsl
     @Throws(UnsupportedOperationException::class)
     public fun EconomyCurrency.balance(): Map<EconomyAccount, Double>
+
+    /**
+     * 执行复杂业务
+     * @since 1.0.3
+     */
+    @EconomyDsl
+    @Throws(UnsupportedOperationException::class)
+    public fun EconomyCurrency.transaction(block: EconomyTransaction.() -> Unit)
 }
 
 /**

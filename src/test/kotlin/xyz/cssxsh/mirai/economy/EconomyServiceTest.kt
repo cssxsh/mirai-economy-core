@@ -74,4 +74,15 @@ internal abstract class EconomyServiceTest {
             Assertions.assertEquals(EconomyServiceTestCoin.id, hard.id)
         }
     }
+
+    @Test
+    fun `currency transaction`() {
+        globalEconomy {
+            EconomyServiceTestCoin.transaction {
+                for ((account, balance) in this) {
+                    // ...
+                }
+            }
+        }
+    }
 }
