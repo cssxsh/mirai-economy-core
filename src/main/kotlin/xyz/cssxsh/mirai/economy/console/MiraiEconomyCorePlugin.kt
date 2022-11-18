@@ -12,7 +12,7 @@ internal object MiraiEconomyCorePlugin : KotlinPlugin(
     JvmPluginDescription(
         id = "xyz.cssxsh.mirai.plugin.mirai-economy-core",
         name = "mirai-economy-core",
-        version = "1.0.2",
+        version = "1.0.3",
     ) {
         author("cssxsh")
 
