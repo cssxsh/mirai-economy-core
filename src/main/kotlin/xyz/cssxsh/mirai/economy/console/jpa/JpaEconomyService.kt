@@ -123,7 +123,7 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
         return JpaUserEconomyAccount(
             record = factory.fromTransaction { session ->
                 val record = EconomyAccountRecord.fromUser(user = user)
-                session.merge(user)
+                session.merge(record)
                 session.flush()
                 record
             },
