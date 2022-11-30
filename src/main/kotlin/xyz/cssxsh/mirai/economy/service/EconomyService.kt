@@ -116,9 +116,9 @@ public abstract class AbstractEconomyService : IEconomyService, CoroutineScope {
 
     // region Currency
 
-    protected open val currencies: MutableMap<String, EconomyCurrency> = ConcurrentHashMap()
+    protected val currencies: MutableMap<String, EconomyCurrency> = java.util.concurrent.ConcurrentHashMap()
 
-    override val basket: Map<String, EconomyCurrency> get() = currencies.asImmutable()
+    override val basket: Map<String, EconomyCurrency> = object : Map<String, EconomyCurrency> by currencies {}
 
     @Synchronized
     public override fun register(currency: EconomyCurrency, override: Boolean) {
