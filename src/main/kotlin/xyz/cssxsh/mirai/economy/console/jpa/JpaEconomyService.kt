@@ -30,7 +30,7 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
             MiraiEconomyCorePlugin.coroutineContext
         } catch (_: UninitializedPropertyAccessException) {
             CoroutineExceptionHandler { _, throwable ->
-                if (throwable.unwrapCancellationException() !is CancellationException) {
+                if (throwable !is CancellationException) {
                     logger.error({ "Exception in coroutine JpaEconomyService" }, throwable)
                 }
             }
@@ -51,12 +51,12 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
             .buildSessionFactory()
 
         val currencies = folder.resolve("currencies")
-        currencies.mkdirs()
+        Files.createDirectories(currencies)
         for (entry in currencies.listDirectoryEntries()) {
             val currency = try {
                 when {
                     entry.isDirectory() -> EconomyScriptCurrency.fromFolder(folder = entry)
-                    entry.isFile -> EconomyScriptCurrency.fromZip(pack = entry)
+                    entry.isReadable() -> EconomyScriptCurrency.fromZip(pack = entry)
                     else -> continue
                 }
             } catch (_: NoSuchElementException) {
