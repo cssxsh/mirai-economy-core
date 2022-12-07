@@ -1,14 +1,14 @@
 plugins {
-    kotlin("jvm") version "1.7.20"
-    kotlin("plugin.jpa") version "1.7.20"
-    kotlin("plugin.serialization") version "1.7.20"
+    kotlin("jvm") version "1.7.21"
+    kotlin("plugin.jpa") version "1.7.21"
+    kotlin("plugin.serialization") version "1.7.21"
 
-    id("net.mamoe.mirai-console") version "2.13.0-RC2"
+    id("net.mamoe.mirai-console") version "2.13.2"
     id("me.him188.maven-central-publish") version "1.0.0-dev-3"
 }
 
 group = "xyz.cssxsh.mirai"
-version = "1.0.4"
+version = "1.0.5"
 
 mavenCentralPublish {
     useCentralS01()
@@ -26,22 +26,22 @@ repositories {
 }
 
 dependencies {
-    compileOnly("net.mamoe:mirai-core:2.13.0")
-    compileOnly("net.mamoe:mirai-core-utils:2.13.0")
     compileOnly("xyz.cssxsh.mirai:mirai-script-plugin:1.0.2")
-    compileOnly("xyz.cssxsh.mirai:mirai-hibernate-plugin:2.5.0")
-    compileOnly("com.google.protobuf:protobuf-java:3.21.9")
+    compileOnly("xyz.cssxsh.mirai:mirai-hibernate-plugin:2.5.1")
     testImplementation(kotlin("test"))
-    testImplementation("org.slf4j:slf4j-simple:2.0.3")
-    testImplementation("net.mamoe:mirai-logging-slf4j:2.13.0")
-    testImplementation("xyz.cssxsh.mirai:mirai-hibernate-plugin:2.5.0")
-    // lua
+    testImplementation("xyz.cssxsh.mirai:mirai-hibernate-plugin:2.5.1")
     testImplementation("org.luaj:luaj-jse:3.0.1")
-    // js
     testImplementation("org.graalvm.js:js:22.2.0")
     testImplementation("org.graalvm.js:js-scriptengine:22.2.0")
-    // python
     testImplementation("org.python:jython-standalone:2.7.3")
+    //
+    implementation(platform("net.mamoe:mirai-bom:2.13.2"))
+    compileOnly("net.mamoe:mirai-console-compiler-common")
+    testImplementation("net.mamoe:mirai-logging-slf4j")
+    //
+    implementation(platform("org.slf4j:slf4j-parent:2.0.5"))
+    testImplementation("org.slf4j:slf4j-simple")
+    //
 }
 
 kotlin {
