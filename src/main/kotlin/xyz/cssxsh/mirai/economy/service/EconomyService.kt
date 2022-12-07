@@ -53,12 +53,13 @@ public interface IEconomyService : EconomyContextManager, EconomyAccountManager,
         /**
          * 创建经纪服务实例
          * @param name 指定的服务名称
-         * @throws UnsupportedOperationException 无法实例化插件服务
+         * @throws ServiceConfigurationError 无法实例化插件服务
          * @see NAME_KEY System Property Key，可以用于指定服务
          * @see loaders 可用的服务加载器示例
          */
         @Throws(ServiceConfigurationError::class)
         public fun create(name: String?): IEconomyService {
+            var cause0: Throwable? = null
             for (loader in loaders) {
                 for (provider in loader.stream()) {
                     val clazz = provider.type()
@@ -70,17 +71,14 @@ public interface IEconomyService : EconomyContextManager, EconomyAccountManager,
                         provider.get() as AbstractEconomyService
                     } catch (error: ServiceConfigurationError) {
                         val cause = error.cause ?: error
+                        cause0 = cause
                         if (annotation?.ignore.orEmpty().any { it.isInstance(cause) }) {
                             continue
                         } else {
                             throw error
                         }
                     } catch (cause: ClassCastException) {
-                        if (annotation?.ignore.orEmpty().any { it.isInstance(cause) }) {
-                            continue
-                        } else {
-                            throw ServiceConfigurationError("未继承 AbstractEconomyService", cause)
-                        }
+                        throw ServiceConfigurationError("未继承 AbstractEconomyService", cause)
                     }
 
                     service.launch {
@@ -95,7 +93,7 @@ public interface IEconomyService : EconomyContextManager, EconomyAccountManager,
                 }
             }
 
-            throw ServiceConfigurationError("无法创建 EconomyService 服务")
+            throw ServiceConfigurationError("无法创建 EconomyService 服务", cause0)
         }
     }
 }
