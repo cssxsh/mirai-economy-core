@@ -190,7 +190,8 @@ public interface EconomyContextManager {
     public fun global(): GlobalEconomyContext
 
     /**
-     * 自定义全局上下文
+     * 自定义全局上下文，可能取 [CoroutineName] 作为ID
+     * @see CoroutineName
      * @since 1.0.6
      */
     public fun custom(scope: CoroutineScope): GlobalEconomyContext
