@@ -113,6 +113,15 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
         return JpaGlobalEconomyContext(session = factory.openSession(), service = this)
     }
 
+    /**
+     * 生成一个插件专属的 GlobalEconomyContext
+     * @param scope 只接受 JvmPlugin 作为输入
+     * @since 1.0.6
+     */
+    override fun custom(scope: CoroutineScope): GlobalEconomyContext {
+        return JpaPluginEconomyContext(session = factory.openSession(), service = this, plugin = scope as JvmPlugin)
+    }
+
     override fun context(target: Bot): BotEconomyContext {
         return JpaBotEconomyContext(session = factory.openSession(), service = this, bot = target)
     }

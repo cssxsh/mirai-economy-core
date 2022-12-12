@@ -1,5 +1,6 @@
 package xyz.cssxsh.mirai.economy.service
 
+import kotlinx.coroutines.*
 import net.mamoe.mirai.*
 import net.mamoe.mirai.contact.*
 import xyz.cssxsh.mirai.economy.*
@@ -187,6 +188,12 @@ public interface EconomyContextManager {
      * 全局上下文
      */
     public fun global(): GlobalEconomyContext
+
+    /**
+     * 自定义全局上下文
+     * @since 1.0.6
+     */
+    public fun custom(scope: CoroutineScope): GlobalEconomyContext
 
     /**
      * 机器人上下文
