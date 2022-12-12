@@ -4,6 +4,7 @@ import kotlinx.coroutines.*
 import net.mamoe.mirai.*
 import net.mamoe.mirai.console.permission.*
 import net.mamoe.mirai.console.plugin.*
+import net.mamoe.mirai.console.plugin.jvm.*
 import net.mamoe.mirai.contact.*
 import net.mamoe.mirai.utils.*
 import org.hibernate.*
@@ -47,7 +48,12 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
             ServiceLoader.load(PluginFileExtensions::class.java, this::class.java.classLoader)
                 .first()
         }
-        this.factory = MiraiHibernateConfiguration(loader = MiraiHibernateLoader.Impl(files))
+        val loader = try {
+            MiraiHibernateLoader.Impl(files)
+        } catch (_: NoSuchMethodError) {
+            MiraiHibernateLoader(files as JvmPlugin)
+        }
+        this.factory = MiraiHibernateConfiguration(loader = loader)
             .buildSessionFactory()
 
         val currencies = folder.resolve("currencies")
