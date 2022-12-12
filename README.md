@@ -41,3 +41,7 @@ mirai {
     也支持打包为 Zip 压缩包, 此时压缩包名称将是 货币ID  
     可以使用 `EconomyScriptCurrency.fromFolder`  或者 `EconomyScriptCurrency.fromZip` 手动加载, 然后手动注册  
     也可以放到 `data/xyz.cssxsh.mirai.plugin.mirai-economy-core/currencies` 中，在经济系统初始化时自动加载并注册
+
+## [爱发电](https://afdian.net/@cssxsh)
+
+![afdian](example/sponsor/afdian.jpg)
