@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "xyz.cssxsh.mirai"
-version = "1.0.5"
+version = "1.0.6"
 
 mavenCentralPublish {
     useCentralS01()
@@ -39,9 +39,8 @@ dependencies {
     compileOnly("net.mamoe:mirai-console-compiler-common")
     testImplementation("net.mamoe:mirai-logging-slf4j")
     //
-    implementation(platform("org.slf4j:slf4j-parent:2.0.5"))
+    implementation(platform("org.slf4j:slf4j-parent:2.0.6"))
     testImplementation("org.slf4j:slf4j-simple")
-    //
 }
 
 kotlin {
