@@ -8,6 +8,7 @@ import net.mamoe.mirai.console.plugin.jvm.*
 import net.mamoe.mirai.contact.*
 import net.mamoe.mirai.utils.*
 import org.hibernate.*
+import xyz.cssxsh.hibernate.*
 import xyz.cssxsh.mirai.economy.console.*
 import xyz.cssxsh.mirai.economy.console.entity.*
 import xyz.cssxsh.mirai.economy.script.*
@@ -55,6 +56,19 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
         }
         this.factory = MiraiHibernateConfiguration(loader = loader)
             .buildSessionFactory()
+
+        launch {
+            // XXX
+            delay(timeMillis = 5_000)
+            System.setProperty("xyz.cssxsh.mirai.economy.jpa", factory.fromSession { session ->
+                try {
+                    MiraiH2.url(session = session)
+                } catch (_: Throwable) {
+                    session.getDatabaseMetaData().url
+                }
+            })
+        }
+
 
         val currencies = folder.resolve("currencies")
         Files.createDirectories(currencies)

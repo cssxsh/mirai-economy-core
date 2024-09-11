@@ -27,9 +27,9 @@ repositories {
 
 dependencies {
     compileOnly("xyz.cssxsh.mirai:mirai-script-plugin:1.1.0")
-    compileOnly("xyz.cssxsh.mirai:mirai-hibernate-plugin:2.8.2")
+    compileOnly("xyz.cssxsh.mirai:mirai-hibernate-plugin:2.9.0")
     testImplementation(kotlin("test"))
-    testImplementation("xyz.cssxsh.mirai:mirai-hibernate-plugin:2.8.2")
+    testImplementation("xyz.cssxsh.mirai:mirai-hibernate-plugin:2.9.0")
     testImplementation("org.luaj:luaj-jse:3.0.1")
     testImplementation("org.graalvm.js:js:23.0.5")
     testImplementation("org.graalvm.js:js-scriptengine:23.0.5")
