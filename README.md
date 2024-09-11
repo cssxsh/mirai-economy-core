@@ -8,6 +8,12 @@
 
 **目前需要 [Mirai Hibernate Plugin](https://github.com/cssxsh/mirai-hibernate-plugin) 前置才能使用**
 
+默认的经济货币为 `mirai-coin`  
+已对接 `Mirai 币` 的插件有：  
+* [壶言经济@Moyuyanli](https://github.com/Moyuyanli/HuYanEconomy)  
+* [LoliYouWant@MrXiaoM](https://github.com/MrXiaoM/LoliYouWant)
+* [MiraiDailySign@MrXiaoM](https://github.com/MrXiaoM/MiraiDailySign)
+
 ## 在 Mirai Console Plugin 项目中引用
 
 ```kotlin
@@ -44,4 +50,4 @@ mirai {
 
 ## [爱发电](https://afdian.net/@cssxsh)
 
-![afdian](example/sponsor/afdian.jpg)
+![afdian](.github/afdian.jpg)

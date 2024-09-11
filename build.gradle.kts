@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "xyz.cssxsh.mirai"
-version = "1.0.6"
+version = "1.1.0"
 
 mavenCentralPublish {
     useCentralS01()
@@ -33,7 +33,7 @@ dependencies {
     testImplementation("org.luaj:luaj-jse:3.0.1")
     testImplementation("org.graalvm.js:js:23.0.5")
     testImplementation("org.graalvm.js:js-scriptengine:23.0.5")
-    testImplementation("org.python:jython-standalone:2.7.3")
+    testImplementation("org.python:jython-standalone:2.7.4")
     //
     implementation(platform("net.mamoe:mirai-bom:2.16.0"))
     compileOnly("net.mamoe:mirai-console-compiler-common")
