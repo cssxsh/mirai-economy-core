@@ -65,20 +65,12 @@ jobs:
           brew install postgresql
           brew info postgresql
           brew services start postgresql -v
-          createuser -U runner -s postgres
-          createdb mirai
-          psql -c "ALTER USER postgres PASSWORD 'root';"
-        env:
-          PGUSER: postgres
-          PGDATABASE: postgres
 
       - name: Start MySQL
         run: |
           brew install mysql
           brew info mysql
           brew services restart mysql -v
-          mysqladmin -uroot create mirai
-          mysqladmin -uroot password root
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -88,6 +80,17 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '11'
+
+      - name: Set Database User
+        run: |
+          createuser -U runner -s postgres
+          createdb mirai
+          psql -c "ALTER USER postgres PASSWORD 'root';"
+          mysqladmin -uroot create mirai
+          mysqladmin -uroot password root
+        env:
+          PGUSER: postgres
+          PGDATABASE: postgres
 
       - name: chmod -R 777 *
         run: chmod -R 777 *
