@@ -29,7 +29,7 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
     override val coroutineContext: CoroutineContext = kotlin.run {
         try {
             MiraiEconomyCorePlugin.coroutineContext
-        } catch (_: UninitializedPropertyAccessException) {
+        } catch (_: ExceptionInInitializerError) {
             CoroutineExceptionHandler { _, throwable ->
                 if (throwable !is CancellationException) {
                     logger.error({ "Exception in coroutine JpaEconomyService" }, throwable)
@@ -44,7 +44,7 @@ internal class JpaEconomyService : IEconomyService, AbstractEconomyService() {
         val files: PluginFileExtensions = try {
             MiraiEconomyCorePlugin.dataFolder
             MiraiEconomyCorePlugin
-        } catch (_: UninitializedPropertyAccessException) {
+        } catch (_: NoClassDefFoundError) {
             ServiceLoader.load(PluginFileExtensions::class.java, this::class.java.classLoader)
                 .first()
         }
